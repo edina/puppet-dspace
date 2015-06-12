@@ -37,4 +37,5 @@
 #
 class dspace {
   contain dspace::packages
+  contain dspace::config
 }
