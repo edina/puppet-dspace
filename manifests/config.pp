@@ -2,7 +2,7 @@ class dspace::config {
   $ds_root = '/usr/local/dspace'
   $conf_dir = "${ds_root}/config"
 
-  #notify{"The value is: $hostname": }
+  notify{"The value is: $hostname": }
   $db_pass = hiera('db::pass')
 
   $ds_hostname = "$hostname"
