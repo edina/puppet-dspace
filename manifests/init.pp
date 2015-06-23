@@ -35,7 +35,7 @@
 #
 # Copyright 2015 Your name here, unless otherwise noted.
 #
-class dspace {
+class dspace($dsroot = '/usr/local/dspace') {
   contain dspace::packages
   contain dspace::config
 }
