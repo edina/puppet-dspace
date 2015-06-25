@@ -24,41 +24,41 @@
 ##### Basic information ######
 
 # DSpace installation directory
-dspace.dir = <%= @ds_root %>
+dspace.dir=<%= @ds_root %>
 
 # DSpace host name - should match base URL.  Do not include port number.
-dspace.hostname = <%= @ds_hostname %>
+dspace.hostname=<%= @ds_hostname %>
 
 # DSpace base host URL.  Include port number etc.
-dspace.baseUrl = <%= @ds_baseurl %>
+dspace.baseUrl=<%= @ds_baseurl %>
 
 # DSpace base URL.  Include port number etc., but NOT trailing slash
 # Change to xmlui if you wish to use the xmlui as the default, or remove
 # "/jspui" and set webapp of your choice as the "ROOT" webapp in
 # the servlet engine.
-dspace.url = <%= @ds_url %>
+dspace.url=<%= @ds_url %>
 
 # Optional: DSpace URL for mobile access
 # This
 #dspace.mobileUrl = http://mobile.example.com
 
 # Name of the site
-dspace.name = <%= @ds_name %>
+dspace.name=<%= @ds_name %>
 
 # Default language for metadata values
-default.language = en_UK
+default.language=en_UK
 
 ##### Database settings #####
 
 # URL for connecting to database
-db.url = <%= @ds_name %>
+db.url=<%= @db_url %>
 
 # JDBC Driver
-db.driver = org.postgresql.Driver
+db.driver=org.postgresql.Driver
 
 # Database username and password
-db.username = datashar
-db.password = <%= @db_pass %>
+db.username=<%= @db_user %>
+db.password=<%= @db_pass %>
 
 # Schema name - if your database contains multiple schemas, you can avoid
 # problems with retrieving the definitions of duplicate object names by
@@ -71,7 +71,7 @@ db.schema =
 ## Connection pool parameters
 
 # Maximum number of DB connections in pool
-db.maxconnections = 30
+db.maxconnections = 120
 
 # Maximum time to wait before giving up if all connections in pool are busy (milliseconds)
 db.maxwait = 5000
@@ -95,7 +95,7 @@ db.poolname = dspacepool
 ##### Email settings ######
 
 # SMTP mail server
-mail.server = internalmailrelay.ed.ac.uk
+mail.server=<%= @ds_mailserver %>
 
 # SMTP mail server authentication username and password (if required)
 mail.server.username =
@@ -105,7 +105,7 @@ mail.server.password =
 mail.server.port = 25
 
 # From address for mail
-mail.from.address = dspace-noreply@myu.edu
+mail.from.address = <%= @ds_mailfrom %>
 
 # Name of a pre-configured Session object to be fetched from a directory.
 # This overrides the Session settings above.  If none can be found, then DSpace
@@ -113,16 +113,16 @@ mail.from.address = dspace-noreply@myu.edu
 #mail.session.name = Session
 
 # Currently limited to one recipient!
-feedback.recipient = dspace-help@myu.edu
+feedback.recipient = <%= @ds_mailfrom %>
 
 # General site administration (Webmaster) e-mail
-mail.admin = dspace-help@myu.edu
+mail.admin = <%= @ds_mailfrom %>
 
 # Recipient for server errors and alerts
-alert.recipient =
+alert.recipient = george.hamilton@ed.ac.uk
 
 # Recipient for new user registration emails
-registration.notify =
+registration.notify = <%= @ds_mailfrom %>
 
 # Set the default mail character set. This may be overridden by providing a line
 # inside the email template "charset: <encoding>", otherwise this default is used.
@@ -142,12 +142,13 @@ mail.allowed.referrers = localhost
 # By setting mail.server.disabled = true, DSpace will not send out emails.
 # It will instead log the subject of the email which should have been sent
 # This is especially useful for development and test environments where production data is used when testing functionality.
-#mail.server.disabled = false
+mail.server.disabled = <%= @ds_maildisabled %>
 
 ##### File Storage ######
 
 # Asset (bitstream) store number 0 (zero)
 assetstore.dir = ${dspace.dir}/assetstore
+
 
 # Specify extra asset stores like this, counting from 1 upwards:
 # assetstore.dir.1 = /second/assetstore
@@ -230,7 +231,7 @@ log.dir = ${dspace.dir}/log
 
 # If enabled, the logging and the solr statistics system will look for
 # an X-Forward header. If it finds it, it will use this for the user IP address
-#useProxies = true
+useProxies = true
 
 ##### DOI registration agency credentials ######
 # To mint DOIs you have to use a DOI registration agency like DataCite. Several
@@ -241,23 +242,15 @@ log.dir = ${dspace.dir}/log
 # properties.
 
 # Credentials used to authenticate against the registration agency:
-identifier.doi.user = username
-identifier.doi.password = password
+identifier.doi.user=<%= @doi_user %>
+identifier.doi.password=<%= @doi_pass %>
 # DOI prefix used to mint DOIs. All DOIs minted by DSpace will use this prefix.
 # The Prefix will be assigned by the registration agency.
-identifier.doi.prefix = 10.5072
-# If you want to, you can further separate your namespace. Should all the
-# suffixes of all DOIs minted by DSpace start with a special string to separate
-# it from other services also minting DOIs under your prefix?
-identifier.doi.namespaceseparator = dspace/
-
-##### Plugin management #####
-
-# Where to look for third-party plugin packages.  The value is a colon-separated
-# list of filesystem directories and/or JAR files:  a Java class path.  Plugin
-# classes not found in the usual places will be sought in these places last.  If
-# unset, only the standard places will be searched.
-#plugin.classpath = ${dspace.dir}/plugins/aPlugin.jar
+identifier.doi.prefix=<%= @doi_prefix %>
+# If you want to, you can further separate your namespace. Should all the suffix
+# of all DOIs minted by DSpace start with a special string to separate it from
+# other services also minting DOIs under your prefix?
+identifier.doi.namespaceseparator = <%= @doi_ns %>
 
 ##### Search settings #####
 
@@ -340,10 +333,10 @@ search.index.12 = language:dc.language.iso
 # in JSPUI's 'identifier' message on item record pages for existing items.
 #
 # If omitted, the canonical URL prefix will be http://hdl.handle.net/
-handle.canonical.prefix = http://hdl.handle.net/
+handle.canonical.prefix=<%= @ds_handleurl %>
 
 # CNRI Handle prefix
-handle.prefix = 123456789
+handle.prefix=<%= @ds_handleprefix %>
 
 # Directory for installing Handle server files
 handle.dir = ${dspace.dir}/handle-server
@@ -426,10 +419,10 @@ handle.dir = ${dspace.dir}/handle-server
 #### Proxy Settings ######
 # uncomment and specify both properties if proxy server required
 # proxy server for external http requests - use regular hostname without port number
-http.proxy.host =
+#http.proxy.host =
 
 # port number of proxy server
-http.proxy.port =
+#http.proxy.port =
 
 
 #### Media Filter / Format Filter plugins (through PluginManager) ####
@@ -629,7 +622,7 @@ plugin.reusable.org.dspace.content.packager.DSpaceMETSDisseminator = false
 plugin.named.org.dspace.content.packager.PackageIngester = \
   org.dspace.content.packager.DSpaceAIPIngester = AIP, \
   org.dspace.content.packager.PDFPackager  = Adobe PDF, PDF, \
-  org.dspace.content.packager.DSpaceMETSIngester = METS, \
+  org.edina.datashare.sword.METSIngester = METS, \
   org.dspace.content.packager.RoleIngester = DSPACE-ROLES
 
 # Do NOT cache AIP/METS Ingester plugin instances, as their imported obj lists
@@ -765,7 +758,8 @@ event.consumer.browse.class = org.dspace.browse.BrowseConsumer
 event.consumer.browse.filters = Community|Collection|Item|Bundle+Add|Create|Modify|Modify_Metadata|Delete|Remove
 
 # consumer related to EPerson changes
-event.consumer.eperson.class = org.dspace.eperson.EPersonConsumer
+#event.consumer.eperson.class = org.dspace.eperson.EPersonConsumer
+event.consumer.eperson.class = org.edina.datashare.eperson.UserEventHandler
 event.consumer.eperson.filters = EPerson+Create
 
 # consumer to clean up harvesting data
@@ -795,12 +789,16 @@ event.consumer.authority.filters = Item+Modify|Modify_Metadata
 # ...set to true to enable testConsumer messages to standard output
 #testConsumer.verbose = true
 
+# datashare event listener
+event.consumer.datashare.class = org.edina.datashare.utils.DataShareConsumer
+event.consumer.datashare.filters = Collection+Add
+
 #### Embargo Settings ####
 # DC metadata field to hold the user-supplied embargo terms
-embargo.field.terms = SCHEMA.ELEMENT.QUALIFIER
+embargo.field.terms = dc.date.embargo
 
 # DC metadata field to hold computed "lift date" of embargo
-embargo.field.lift = SCHEMA.ELEMENT.QUALIFIER
+embargo.field.lift = dc.date.embargo
 
 # string in terms field to indicate indefinite embargo
 embargo.terms.open = forever
@@ -878,7 +876,7 @@ org.dspace.app.batchitemimport.work.dir = ${dspace.dir}/imports
 
 # whether to display the contents of the licence bundle (often just the deposit
 # licence in standard DSpace installation
-webui.licence_bundle.show = false
+webui.licence_bundle.show = true
 
 ##### Hide Item Metadata Fields  #####
 # Fields named here are hidden in the following places UNLESS the
@@ -952,7 +950,7 @@ cc.license.classfilter = recombo, mark
 # http://api.creativecommons.org/rest/1.5/support/jurisdictions
 # Commented out means the license is unported.
 # (e.g. nz = New Zealand, uk = England and Wales, jp = Japan)
-cc.license.jurisdiction = us
+cc.license.jurisdiction = uk
 
 # Locale for CC dialogs
 # A locale in the form language or language-country.
@@ -1143,11 +1141,13 @@ webui.strengths.show = false
 #
 # For compatibility with previous versions:
 #
-webui.browse.index.1 = dateissued:item:dateissued
-webui.browse.index.2 = author:metadata:dc.contributor.*,dc.creator:text
-webui.browse.index.3 = title:item:title
-webui.browse.index.4 = subject:metadata:dc.subject.*:text
-#webui.browse.index.5 = dateaccessioned:item:dateaccessioned
+webui.browse.index.1 = title:item:title
+
+#webui.browse.index.1 = dateissued:item:dateissued
+#webui.browse.index.2 = author:metadata:dc.contributor.*,dc.creator:text
+#webui.browse.index.3 = title:item:title
+#webui.browse.index.4 = subject:metadata:dc.subject.*:text
+webui.browse.index.2 = dateaccessioned:item:dateaccessioned
 
 ## example of authority-controlled browse category - see authority control config
 #webui.browse.index.5 = lcAuthor:metadataAuthority:dc.contributor.author:authority
@@ -1182,7 +1182,8 @@ webui.browse.index.4 = subject:metadata:dc.subject.*:text
 # but otherwise don't want users to choose that option.
 #
 webui.itemlist.sort-option.1 = title:dc.title:title
-webui.itemlist.sort-option.2 = dateissued:dc.date.issued:date
+webui.itemlist.sort-option.2 = dateavailable:dc.date.available:date
+#webui.itemlist.sort-option.2 = dateissued:dc.date.issued:date
 webui.itemlist.sort-option.3 = dateaccessioned:dc.date.accessioned:date
 
 # By default, the display of metadata in the browse indexes is case sensitive
@@ -1420,13 +1421,13 @@ plugin.named.org.dspace.content.license.LicenseArgumentFormatter = \
 # (This setting is not used by XMLUI, as you enable feeds in your theme)
 webui.feed.enable = true
 # number of DSpace items per feed (the most recent submissions)
-webui.feed.items = 4
+webui.feed.items = 50
 # maximum number of feeds in memory cache
 # value of 0 will disable caching
 webui.feed.cache.size = 100
 # number of hours to keep cached feeds before checking currency
 # value of 0 will force a check with each request
-webui.feed.cache.age = 48
+webui.feed.cache.age = 8
 # which syndication formats to offer
 # use one or more (comma-separated) values from list:
 # rss_0.90, rss_0.91, rss_0.92, rss_0.93, rss_0.94, rss_1.0, rss_2.0
@@ -1441,7 +1442,7 @@ webui.feed.localresolve = false
 #
 # The form is <schema prefix>.<element>[.<qualifier>|.*]
 webui.feed.item.title = dc.title
-webui.feed.item.date = dc.date.issued
+webui.feed.item.date = dc.date.accessioned
 
 # Customise the metadata fields to show in the feed for each item's description.
 # Elements will be displayed in the order that they are specified here.
@@ -1618,6 +1619,8 @@ sherpa.romeo.url = http://www.sherpa.ac.uk/romeo/api29.php
 # org.dspace.content.authority.DCInputAuthority, \
 # org.dspace.content.authority.DSpaceControlledVocabulary
 
+plugin.selfnamed.org.dspace.content.authority.ChoiceAuthority = org.dspace.content.authority.DSpaceControlledVocabulary
+
 ## configure LC Names plugin
 #lcname.url = http://alcme.oclc.org/srw/search/lcnaf
 
@@ -1662,6 +1665,12 @@ authority.minconfidence = ambiguous
 #vocabulary.plugin.srsc.hierarchy.store = true
 #vocabulary.plugin.srsc.hierarchy.suggest = true
 #vocabulary.plugin.srsc.delimiter = "::"
+
+choices.plugin.dc.subject.classification = jacs
+choices.presentation.dc.subject.classification = lookup
+vocabulary.plugin.jacs.hierarchy.store = true
+vocabulary.plugin.jacs.hierarchy.suggest = true
+vocabulary.plugin.jacs.delimiter = "::"
 
 ## Demo: publisher name lookup through SHERPA/RoMEO:
 #choices.plugin.dc.publisher = SRPublisher
@@ -2063,7 +2072,7 @@ mirage2.item-view.bitstream.href.label.2 = title
 # inside that snipet is your Google Analytics key usually found in this line:
 # _uacct = "UA-XXXXXXX-X"
 # Take this key (just the UA-XXXXXX-X part) and place it here in this parameter.
-#xmlui.google.analytics.key=UA-XXXXXX-X
+xmlui.google.analytics.key=<%= @google_analyticskey %>
 
 # Assign how many page views will be recorded and displayed in the control panel's
 # activity viewer. The activity tab allows an administrator to debug problems in a
@@ -2092,3 +2101,13 @@ mail.helpdesk = dspace-help@myu.edu
 request.item.helpdesk.override = false
 
 #------------END REQUEST ITEM CONFIGURATION---------------------#
+
+##################### DataShare properties ##########################
+
+# datashare factory class
+dspace.project.factory = org.edina.datashare.utils.DataShareFactory
+
+# hide download all option for downloads that will be greater than limit
+dspace.downloadall.limit = 5300000000
+
+#####################################################################
