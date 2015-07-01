@@ -1,8 +1,5 @@
 class dspace::config {
 
-  notice($dspace::dsroot)
-  notice($fqdn)
-
   $db_url = hiera('db::url')
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
@@ -20,7 +17,7 @@ class dspace::config {
   $doi_prefix = hiera('doi::prefix')
   $doi_ns = hiera('doi::ns')
 
-  $google_analyticskey= hiera('google::analyticskey')
+  $google_analyticskey= hiera('google::analyticskey', '')
 
   file { "${dspace::dsroot}":
     ensure => directory,
