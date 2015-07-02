@@ -1,5 +1,4 @@
 class dspace::config {
-
   $db_url = hiera('db::url')
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
