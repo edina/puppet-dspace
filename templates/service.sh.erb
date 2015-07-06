@@ -1,0 +1,518 @@
+#!/usr/bin/env bash
+
+if [ -z $DSPACE_HOME ] ; then
+    DSPACE_HOME=<%= @ds_root %>
+fi
+if [ -z $TOMCAT_HOME ] ; then
+    TOMCAT_HOME=<%= @tomcat_dir %>
+fi
+if [ -z $CATALINA_PID ] ; then
+    CATALINA_PID=$TOMCAT_HOME/temp/tomcat.pid
+fi
+if [ -z $APACHE_PID ] ; then
+    APACHE_PID=/var/run/apache2/
+fi
+
+TOMCAT_START_CMD=$TOMCAT_HOME/bin/startup.sh
+TOMCAT_STOP_CMD=$TOMCAT_HOME/bin/shutdown.sh
+HANDLE_START_CMD=$DSPACE_HOME/bin/start-handle-server
+CLAMD_CMD=$HOME/local/sbin/clamd
+
+# For formatting output
+BOLD=`tput bold`
+NORMAL=`tput sgr0`
+UNDERLINE=`tput smul`
+
+PS='ps -ef'
+APACHE_START_CMD="sudo service apache2 start"
+APACHE_STOP_CMD="sudo service apache2 stop"
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  status
+#   DESCRIPTION:  Calls status functions for each serice component
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+status()
+{
+    # Displays output from for each part of the service
+    apache_process
+    tomcat_process
+    handle_process
+    clamd_process
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  start_process
+#   DESCRIPTION:  Runs start command passed in.  Exits if problem starting component
+#    PARAMETERS:  start command
+#       RETURNS:
+#-------------------------------------------------------------------------------
+start_process()
+{
+    START_COMMAND=$@
+    eval $START_COMMAND
+    START_EXIT_CODE=$?
+    if [ "$START_EXIT_CODE" -ne "0" ]; then
+        echo "* Problem starting $START_COMMAND - got exit code $START_EXIT_CODE - exiting"
+        echo "******************************************************"
+        exit 1
+    fi
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  kill_pid
+#   DESCRIPTION:  Takes a pid and tries to kill it.  Gives up after 60s
+#    PARAMETERS:  pid you want to kill
+#       RETURNS:
+#-------------------------------------------------------------------------------
+kill_pid()
+{
+    pid=$1
+    forever=1
+    i=0
+    while [ $forever -gt 0 ]; do
+        kill -0 $pid 1>/dev/null 2>&1
+        if [ $? -eq 1 ]; then
+            echo "******************************************************"
+            echo "Killed $pid"
+            echo "******************************************************"
+            forever=0
+        else
+            kill -TERM "$pid"
+            i=$((i + 1))
+            if [ $i -gt 60 ]; then
+                echo "* Error - Timed out while stopping (60s) *"
+                echo "* Problem stopping $STOP_COMMAND - got exit code $STOP_EXIT_CODE - exiting *"
+                echo "******************************************************"
+                forever=0
+                exit 1
+            else
+        sleep 1
+            fi
+        fi
+    done
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  start_tomcat
+#   DESCRIPTION:  Starts the tomcat server
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+start_tomcat ()
+{
+    echo "******************************************************"
+
+    if [ ! -f "$CATALINA_PID" ]; then
+        echo "* About to start Tomcat with $TOMCAT_START_CMD"
+        echo "******************************************************"
+        start_process $TOMCAT_START_CMD
+        echo "******************************************************"
+        echo "* ${BOLD}Tomcat started${NORMAL}"
+        echo "******************************************************"
+
+    else
+        read PID < $CATALINA_PID
+        if [ -d "/proc/$PID" ]; then
+            echo "* Tomcat pid file already exists and a process is running with pid $PID"
+            echo "******************************************************"
+        else
+            # If the pid doesn't correspond to a running process, remove the pid file and start tomcat
+            echo "* Removing $CATALINA_PID"
+            echo "* as $PID doesn't correspond to running process *"
+            echo "******************************************************"
+            rm $CATALINA_PID
+            # Start tomcat
+            start_process $TOMCAT_START_CMD
+            echo "******************************************************"
+            echo "* ${BOLD}Tomcat started${NORMAL}"
+            echo "******************************************************"
+
+        fi
+    fi
+
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  stop_tomcat
+#   DESCRIPTION:  Attempts to shut down the Tomcat
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+stop_tomcat ()
+{
+    echo "******************************************************"
+
+    if [ ! -f "$CATALINA_PID" ]; then
+        echo '* Tomcat pid file does not exist - not attempting to stop'
+        echo "******************************************************"
+    else
+        read TOMCAT_PID < $CATALINA_PID
+        eval $TOMCAT_STOP_CMD
+        STOP_EXIT_CODE=$?
+        if [ "$STOP_EXIT_CODE" -ne "0" ]; then
+            # Try to kill the process
+            kill_pid $TOMCAT_PID
+        fi
+
+        echo "******************************************************"
+        echo "* ${BOLD}Tomcat stopped${NORMAL}"
+        echo "******************************************************"
+    fi
+
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  tomcat_process
+#   DESCRIPTION:  Outputs ps info for tomcat java process
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+tomcat_process(){
+
+    TOMCAT_PROCESS=$PS' | grep $USER | grep tomcat | grep -v grep'
+    echo "${BOLD}Tomcat java process details:${NORMAL} "
+    echo "******************************************************"
+    eval $TOMCAT_PROCESS
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  start_apache
+#   DESCRIPTION:  Attempts to start Apache
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+start_apache ()
+{
+    echo "******************************************************"
+
+    if [ ! -f "$APACHE_PID" ]; then
+        echo "* About to start Apache at $APACHE_START_CMD"
+        echo "******************************************************"
+        start_process $APACHE_START_CMD
+        echo "******************************************************"
+        echo "* ${BOLD}Apache started${NORMAL}"
+        echo "******************************************************"
+     else
+        read PID < $APACHE_PID
+        if [ -d "/proc/$PID" ]; then
+            echo "* Apache pid file $APACHE_PID already exists: pid $PID"
+            echo "******************************************************"
+        else
+            # If the pid doesn't correspond to a running process, remove the pid file and start apache
+            echo "* Removing $APACHE_PID as"
+            echo "* $PID doesn't correspond to running process *"
+            echo "******************************************************"
+            rm $APACHE_PID
+            # Start apache
+            start_process $APACHE_START_CMD
+            echo "******************************************************"
+            echo "* ${BOLD}Apache started${NORMAL}"
+            echo "******************************************************"
+
+        fi
+    fi
+}
+
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  stop_apache
+#   DESCRIPTION:  Attempts to stop Apache
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+stop_apache ()
+{
+    echo "******************************************************"
+
+    if [ ! -f "$APACHE_PID" ]; then
+        echo "* Apache pid file $APACHE_PID does not exist - not attempting to stop"
+        echo "******************************************************"
+    else
+        read APACHE_PID < $APACHE_PID
+        eval $APACHE_STOP_CMD
+        STOP_EXIT_CODE=$?
+        if [ "$STOP_EXIT_CODE" -ne "0" ]; then
+            # Try to kill the process
+            kill_pid $APACHE_PID
+        fi
+
+        echo "******************************************************"
+        echo "* ${BOLD}Apache stopped${NORMAL}"
+        echo "******************************************************"
+    fi
+
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  apache_process
+#   DESCRIPTION:  Outputs ps info for the Apache
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+apache_process () {
+    APACHE_PROCESSES=$PS' | grep $USER | grep httpd | grep -v grep'
+    echo "${BOLD}Apache process details:${NORMAL}"
+    echo "******************************************************"
+    eval $APACHE_PROCESSES
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  start_handle
+#   DESCRIPTION:  Start handle server
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+start_handle()
+{
+    if [ `hostname` != 'devel' ] ; then
+        echo "******************************************************"
+        start_process $HANDLE_START_CMD
+
+        echo "******************************************************"
+        echo "* ${BOLD}Handle server started${NORMAL}"
+        echo "******************************************************"
+    fi
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  stop_handle
+#   DESCRIPTION:  Stop handle server
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+stop_handle()
+{
+    echo "******************************************************"
+
+    PID=`ps -ef | grep "java -Xmx512M -Xms64M -Dfile.encoding=UTF-8" | grep $USER | grep -v grep | awk '{print $2}'`
+    if [ -n "$PID" ] ; then
+        kill_pid $PID
+
+        echo "******************************************************"
+        echo "* ${BOLD}Handle server stopped${NORMAL}"
+        echo "******************************************************"
+    fi
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  handle_process
+#   DESCRIPTION:  Outputs ps info for the handle server
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+handle_process(){
+    HANDLE_PROCESS='ps -ef | egrep "java \-Xmx.* -Dfile.encoding=UTF-8" | grep $USER | grep -v grep'
+    echo "${BOLD}Handle process details:${NORMAL}"
+    echo "******************************************************"
+    eval $HANDLE_PROCESS
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  start_clamd
+#   DESCRIPTION:  Start clamd daemon
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+start_clamd ()
+{
+    echo "******************************************************"
+    start_process $CLAMD_CMD
+    echo "******************************************************"
+    echo "* ${BOLD}Clamd started${NORMAL}"
+    echo "******************************************************"
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  stop_clamd
+#   DESCRIPTION:  Stop Clamd daemon
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+stop_clamd ()
+{
+    PID=`ps -ef | grep "sbin.clamd" | grep $USER | grep -v grep | awk '{print $2}'`
+    if [ -n "$PID" ] ; then
+        echo "******************************************************"
+        kill_pid $PID
+        echo "******************************************************"
+        echo "* ${BOLD}Clamd daemon stopped${NORMAL}"
+        echo "******************************************************"
+
+    fi
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  clamd_process
+#   DESCRIPTION:  Outputs ps info for the handle server
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+clamd_process(){
+    CLAMAV_PROCESS=$PS' | grep "sbin.clamd" | grep $USER | grep -v grep'
+    echo "${BOLD}Clamav process details:${NORMAL}"
+    echo "******************************************************"
+    eval $CLAMAV_PROCESS
+}
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  stop_all
+#   DESCRIPTION:  Stops each component of the service
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+stop_all ()
+{
+    stop_tomcat
+    stop_apache
+    stop_handle
+    stop_clamd
+    echo "******************************************************"
+    echo "* ${BOLD}All components stopped${NORMAL}"
+    echo "******************************************************"
+}
+
+
+#---  FUNCTION  ----------------------------------------------------------------
+#          NAME:  start_all
+#   DESCRIPTION:  Starts each component of the Unlock service
+#    PARAMETERS:
+#       RETURNS:
+#-------------------------------------------------------------------------------
+start_all ()
+{
+    start_tomcat
+    start_handle
+    start_clamd
+    start_apache
+    echo "******************************************************"
+    echo "* ${BOLD}Start complete${NORMAL}"
+    echo "To check all processes are running ok, run $0 status"
+    echo "******************************************************"
+
+}
+
+
+case "$1" in
+
+    stop_all)
+        stop_all
+    ;;
+
+    start_all)
+        start_all
+    ;;
+
+    restart_all)
+        stop_all
+        sleep 3
+        start_all
+    ;;
+
+    status)
+        status
+    ;;
+
+    ####################################
+    # Tomcat targets
+    ####################################
+
+    start_tomcat)
+        start_tomcat
+    ;;
+
+    stop_tomcat)
+        stop_tomcat
+    ;;
+
+    restart_tomcat)
+        stop_tomcat
+        sleep 5
+        start_tomcat
+    ;;
+
+    ####################################
+    # Apache targets
+    ####################################
+
+    start_apache)
+        start_apache
+    ;;
+
+    stop_apache)
+        stop_apache
+    ;;
+
+    restart_apache)
+        stop_apache
+        sleep 3
+        start_apache
+    ;;
+
+    ####################################
+    # Handle server targets
+    ####################################
+
+    start_handle)
+        start_handle
+    ;;
+
+    stop_handle)
+        stop_handle
+    ;;
+
+    restart_handle)
+        stop_handle
+        sleep 3
+        start_handle
+    ;;
+
+    ####################################
+    # clamav targets
+    ####################################
+
+    start_clamd)
+        start_clamd
+    ;;
+
+    stop_clamd)
+        stop_clamd
+    ;;
+
+    restart_clamd)
+        stop_clamd
+        sleep 3
+        start_clamd
+    ;;
+
+    *)
+    #tput clear
+    echo "Usage: $0 <OPTION>"
+        echo
+        echo "OPTIONS:"
+        echo "    ${BOLD}stop_all${NORMAL} :    Stop all components"
+        echo "    ${BOLD}start_all${NORMAL} :   Start all components"
+        echo "    ${BOLD}restart_all${NORMAL} : Restart all components"
+        echo "    ${BOLD}status${NORMAL} :      Display process details"
+        echo
+        echo "    ${BOLD}start_tomcat${NORMAL} : Start Tomcat located at: $TOMCAT"
+        echo "    ${BOLD}stop_tomcat${NORMAL} :  Stop Tomcat located at: $TOMCAT"
+        echo "    ${BOLD}restart_tomcat${NORMAL} : 	Restart Tomcat located at: $TOMCAT"
+        echo
+        echo "    ${BOLD}start_apache${NORMAL} : Start Apache located at: $APACHE"
+        echo "    ${BOLD}stop_apache${NORMAL} :  Stop Apache located at: $APACHE"
+        echo "    ${BOLD}restart_apache${NORMAL} : Restart Apache located at: $APACHE"
+        echo
+        echo "    ${BOLD}start_handle${NORMAL} :   Run: $HANDLE_START_CMD"
+        echo "    ${BOLD}stop_handle${NORMAL} :    Stop handle server"
+        echo "    ${BOLD}restart_handle${NORMAL} : Restart handle server: "
+        echo
+        echo "    ${BOLD}start_clamd${NORMAL} :   Run: $CLAMD_CMD"
+        echo "    ${BOLD}stop_clamd${NORMAL} :    Stop virus checker "
+        echo "    ${BOLD}restart_clamd${NORMAL} : Restart virus checker: "
+        echo
+        exit 1
+    ;;
+esac
+exit 0
