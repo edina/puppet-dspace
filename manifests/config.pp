@@ -17,8 +17,6 @@ class dspace::config {
   $ds_handleurl = hiera('ds::handleurl')
   $ds_modules_conf_dir = "$ds_conf_dir/modules"
 
-  notice($ds_url)
-
   $doi_user = hiera('doi::user')
   $doi_pass = hiera('doi::pass')
   $doi_prefix = hiera('doi::prefix')
@@ -34,7 +32,7 @@ class dspace::config {
 
   file { "${dspace::dsroot}":
     ensure => directory,
-    mode    => 754,
+    mode    => '754',
     group   => $ds_group,
   }->
   file { "$ds_conf_dir":
@@ -43,7 +41,7 @@ class dspace::config {
   file { "$ds_conf_dir/dspace.cfg":
     ensure  => present,
     content => template('dspace/dspace.cfg.erb'),
-    mode    => 640,
+    mode    => '640',
     group   => $ds_group,
   }
 
@@ -69,7 +67,7 @@ class dspace::config {
   file { "$ds_bin_dir/service.sh":
     ensure  => present,
     content => template('dspace/service.sh.erb'),
-    mode    => 754,
+    mode    => '754',
     group   => $ds_group,
   }
 }
