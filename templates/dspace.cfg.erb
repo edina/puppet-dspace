@@ -767,7 +767,7 @@ event.consumer.browse.filters = Community|Collection|Item|Bundle+Add|Create|Modi
 
 # consumer related to EPerson changes
 #event.consumer.eperson.class = org.dspace.eperson.EPersonConsumer
-event.consumer.eperson.class = org.edina.datashare.eperson.UserEventHandler
+event.consumer.eperson.class = uk.ac.edina.datashare.eperson.UserEventHandler
 event.consumer.eperson.filters = EPerson+Create
 
 # consumer to clean up harvesting data
@@ -798,7 +798,7 @@ event.consumer.authority.filters = Item+Modify|Modify_Metadata
 #testConsumer.verbose = true
 
 # datashare event listener
-event.consumer.datashare.class = org.edina.datashare.utils.DataShareConsumer
+event.consumer.datashare.class = uk.ac.edina.datashare.utils.DataShareConsumer
 event.consumer.datashare.filters = Collection+Add
 
 #### Embargo Settings ####
