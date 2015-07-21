@@ -32,11 +32,13 @@ class dspace::config {
 
   file { "${dspace::dsroot}":
     ensure => directory,
-    mode    => '754',
+    mode    => '774',
     group   => $ds_group,
   }->
   file { "$ds_conf_dir":
     ensure => directory,
+    mode    => '774',
+    group   => $ds_group,
   }->
   file { "$ds_conf_dir/dspace.cfg":
     ensure  => present,
@@ -63,6 +65,8 @@ class dspace::config {
 
   file { "$ds_bin_dir":
     ensure => directory,
+    mode    => '774',
+    group   => $ds_group,
   }->
   file { "$ds_bin_dir/service.sh":
     ensure  => present,
