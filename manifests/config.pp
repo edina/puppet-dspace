@@ -26,7 +26,7 @@ class dspace::config {
 
   $google_analyticskey= hiera('google::analyticskey', '')
 
-  group { $dspace::dsgroup:
+  group { "group_$dspace::dsgroup":
     ensure => "present",
   }
 
