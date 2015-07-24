@@ -7,7 +7,7 @@ if [ -z $TOMCAT_HOME ] ; then
     TOMCAT_HOME=<%= @tomcat_dir %>
 fi
 if [ -z $CATALINA_PID ] ; then
-    CATALINA_PID=$TOMCAT_HOME/temp/tomcat.pid
+    export CATALINA_PID=$TOMCAT_HOME/temp/tomcat.pid
 fi
 if [ -z $APACHE_PID ] ; then
     APACHE_PID=/var/run/apache2/
