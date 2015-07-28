@@ -6,19 +6,21 @@ class dspace::config {
   $tomcat_port = hiera('tomcat::port')
   $tomcat_dir = hiera('tomcat::dir')
 
-  $ds_root = $dspace::dsroot
-  $ds_group = $dspace::dsgroup
-  $ds_conf_dir = "${ds_root}/config"
-  $ds_bin_dir = "${ds_root}/bin"
-  $ds_log_dir = "${ds_root}/log"
+  $ds_root             = $dspace::dsroot
+  $ds_group            = $dspace::dsgroup
+  $ds_conf_dir         = "${ds_root}/config"
+  $ds_bin_dir          = "${ds_root}/bin"
+  $ds_log_dir          = "${ds_root}/log"
   $ds_modules_conf_dir = "$ds_conf_dir/modules"
-  $ds_solr_dir = "${ds_root}/solr"
-  $ds_datadir = hiera('ds::datadir')
-  $ds_hostname = $fqdn
-  $ds_baseurl = hiera('ds::baseurl')
-  $ds_url = hiera('ds::url')
-  $ds_name = hiera('ds::name')
-  $ds_handleurl = hiera('ds::handleurl')
+  $ds_solr_dir         = "${ds_root}/solr"
+  $ds_hostname         = $fqdn
+  $ds_baseurl          = hiera('ds::baseurl')
+  $ds_datadir          = hiera('ds::datadir')
+  $ds_handleprefix     = hiera('ds::handleprefix')
+  $ds_handleurl        = hiera('ds::handleurl')
+  $ds_mailserver       = hiera('common::smtp::host')
+  $ds_name             = hiera('ds::name')
+  $ds_url              = hiera('ds::url')
 
   $doi_user = hiera('doi::user')
   $doi_pass = hiera('doi::pass')
@@ -33,7 +35,7 @@ class dspace::config {
     ensure => "present",
   }
 
-  file { "${dspace::dsroot}":
+  file { "$ds_root":
     ensure => directory,
     mode    => '775',
     group   => $ds_group,
@@ -76,16 +78,18 @@ class dspace::config {
   file { "$ds_bin_dir/service.sh":
     ensure  => present,
     content => template('dspace/service.sh.erb'),
-    mode    => '754',
+    mode    => '774',
     group   => $ds_group,
   }
 
   # assetstore
-  file { "$ds_datadir":
-    ensure => directory,
-    mode    => '775',
-    group   => $ds_group,
-  }->
+  if $ds_datadir != $ds_root {
+    file { "create_$ds_datadir":
+      ensure => directory,
+      mode    => '775',
+      group   => $ds_group,
+    }
+  }
   file { "$ds_datadir/assetstore":
     ensure => directory,
     mode    => '775',
