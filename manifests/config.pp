@@ -19,6 +19,7 @@ class dspace::config {
   $ds_handleprefix     = hiera('ds::handleprefix')
   $ds_handleurl        = hiera('ds::handleurl')
   $ds_mailserver       = hiera('common::smtp::host')
+  $ds_mailfrom         = hiera('ds::mailfrom')
   $ds_name             = hiera('ds::name')
   $ds_url              = hiera('ds::url')
 
