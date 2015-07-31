@@ -3,22 +3,23 @@ class dspace::config {
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
 
-  $tomcat_port = hiera('tomcat::port')
-  $tomcat_dir = hiera('tomcat::dir')
+  $tomcat_port = hiera('common::tomcat::port')
+  $tomcat_dir = hiera('common::tomcat::root')
 
-  $ds_root = $dspace::dsroot
-  $ds_group = $dspace::dsgroup
-  $ds_conf_dir = "${ds_root}/config"
-  $ds_bin_dir = "${ds_root}/bin"
-  $ds_log_dir = "${ds_root}/log"
+  $ds_root             = $dspace::dsroot
+  $ds_group            = $dspace::dsgroup
+  $ds_conf_dir         = "${ds_root}/config"
+  $ds_bin_dir          = "${ds_root}/bin"
+  $ds_log_dir          = "${ds_root}/log"
   $ds_modules_conf_dir = "$ds_conf_dir/modules"
-  $ds_solr_dir = "${ds_root}/solr"
-  $ds_datadir = hiera('ds::datadir')
-  $ds_hostname = $fqdn
-  $ds_baseurl = hiera('ds::baseurl')
-  $ds_url = hiera('ds::url')
-  $ds_name = hiera('ds::name')
-  $ds_handleurl = hiera('ds::handleurl')
+  $ds_solr_dir         = "${ds_root}/solr"
+  $ds_datadir          = hiera('ds::datadir')
+  $ds_hostname         = $fqdn
+  $ds_baseurl          = hiera('ds::baseurl')
+  $ds_url              = hiera('ds::url')
+  $ds_name             = hiera('ds::name')
+  $ds_handleurl        = hiera('ds::handleurl')
+  $ds_mailserver       = hiera('common::smtp::host')
 
   $doi_user = hiera('doi::user')
   $doi_pass = hiera('doi::pass')
