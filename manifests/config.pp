@@ -3,8 +3,8 @@ class dspace::config {
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
 
-  $tomcat_port = hiera('tomcat::port')
-  $tomcat_dir  = hiera('tomcat::dir')
+  $tomcat_port = hiera('common::tomcat::port')
+  $tomcat_dir = hiera('common::tomcat::root')
 
   $ds_root             = $dspace::dsroot
   $ds_group            = $dspace::dsgroup
