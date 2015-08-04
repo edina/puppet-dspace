@@ -1,10 +1,10 @@
 class dspace::config {
-  $db_url = hiera('db::url')
+  $db_url  = hiera('db::url')
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
 
   $tomcat_port = hiera('tomcat::port')
-  $tomcat_dir = hiera('tomcat::dir')
+  $tomcat_dir  = hiera('tomcat::dir')
 
   $ds_root             = $dspace::dsroot
   $ds_group            = $dspace::dsgroup
@@ -23,14 +23,15 @@ class dspace::config {
   $ds_name             = hiera('ds::name')
   $ds_url              = hiera('ds::url')
 
-  $doi_user = hiera('doi::user')
-  $doi_pass = hiera('doi::pass')
+  $doi_user   = hiera('doi::user')
+  $doi_pass   = hiera('doi::pass')
   $doi_prefix = hiera('doi::prefix')
-  $doi_ns = hiera('doi::ns')
+  $doi_ns     = hiera('doi::ns')
 
-  $oai_sorage = hiera('oai::storage')
+  $oai_storage = hiera('oai::storage')
+  $oai_cache  = hiera('oai::cache')
 
-  $google_analyticskey= hiera('google::analyticskey', '')
+  $google_analyticskey = hiera('google::analyticskey', '')
 
   group { "group_$dspace::dsgroup":
     ensure => "present",
