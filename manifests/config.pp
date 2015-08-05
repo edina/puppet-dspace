@@ -86,7 +86,7 @@ class dspace::config {
 
   # assetstore
   if $ds_datadir != $ds_root {
-    file { "create_$ds_datadir":
+    file { "$ds_datadir":
       ensure => directory,
       mode    => '775',
       group   => $ds_group,
