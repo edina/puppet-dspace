@@ -98,7 +98,7 @@ class dspace::config {
     group   => $ds_group,
   }->
   exec { "asset_permissions":
-    command => "find . -type d -exec chmod 0770 {} \;",
+    command => 'find . -type d -exec chmod 0770 {} \;',
     cwd     => "$ds_datadir/assetstore",
     path    => "/usr/bin/",
   }
