@@ -94,8 +94,13 @@ class dspace::config {
   }
   file { "$ds_datadir/assetstore":
     ensure => directory,
-    mode    => '775',
+    mode    => '770',
     group   => $ds_group,
+  }->
+  exec { "asset_permissions":
+    command => "find . -type d -exec chmod 0770 {} \;",
+    cwd     => "$ds_datadir/assetstore",
+    path    => "/usr/bin/",
   }
 
   # log
