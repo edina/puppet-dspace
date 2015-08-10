@@ -62,7 +62,7 @@ start_process()
 
 #---  FUNCTION  ----------------------------------------------------------------
 #          NAME:  kill_pid
-#   DESCRIPTION:  Takes a pid and tries to kill it.  Gives up after 60s
+#   DESCRIPTION:  Takes a pid and tries to kill it.  Gives up after 80s
 #    PARAMETERS:  pid you want to kill
 #       RETURNS:
 #-------------------------------------------------------------------------------
@@ -81,7 +81,7 @@ kill_pid()
         else
             kill -TERM "$pid"
             i=$((i + 1))
-            if [ $i -gt 60 ]; then
+            if [ $i -gt 80 ]; then
                 echo "* Error - Timed out while stopping (60s) *"
                 echo "* Problem stopping $STOP_COMMAND - got exit code $STOP_EXIT_CODE - exiting *"
                 echo "******************************************************"

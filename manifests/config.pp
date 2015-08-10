@@ -13,6 +13,7 @@ class dspace::config {
   $ds_log_dir          = "${ds_root}/log"
   $ds_modules_conf_dir = "$ds_conf_dir/modules"
   $ds_solr_dir         = "${ds_root}/solr"
+  $ds_tmp_dir         = "${ds_root}/tmp"
   $ds_hostname         = $fqdn
   $ds_baseurl          = hiera('ds::baseurl')
   $ds_datadir          = hiera('ds::datadir')
@@ -32,6 +33,8 @@ class dspace::config {
   $oai_cache  = hiera('oai::cache')
 
   $google_analyticskey = hiera('google::analyticskey', '')
+
+  $sword_service_url = hiera('sword::servicedoc::url', "http://localhost:$tomcat_port/swordv2/servicedocument")
 
   group { "group_$dspace::dsgroup":
     ensure => "present",
@@ -69,6 +72,10 @@ class dspace::config {
   file { "$ds_modules_conf_dir/solr-statistics.cfg":
     ensure  => present,
     content => template('dspace/solr-statistics.cfg.erb'),
+  }->
+  file { "$ds_modules_conf_dir/swordv2-server.cfg":
+    ensure  => present,
+    content => template('dspace/swordv2-server.cfg.erb'),
   }
 
   # bin
@@ -144,6 +151,12 @@ class dspace::config {
   file { "$ds_solr_dir/oai/data":
     ensure => directory,
     mode    => '775',
+    group   => $ds_group,
+  }
+
+  # tmp
+  file { "$ds_tmp_dir":
+    ensure => directory,
     group   => $ds_group,
   }
 }
