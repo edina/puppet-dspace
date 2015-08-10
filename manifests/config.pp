@@ -158,5 +158,6 @@ class dspace::config {
   file { "$ds_tmp_dir":
     ensure => directory,
     group   => $ds_group,
+    mode    => '775',
   }
 }
