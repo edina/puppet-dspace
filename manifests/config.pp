@@ -90,6 +90,10 @@ class dspace::config {
     content => template('dspace/service.sh.erb'),
     mode    => '774',
     group   => $ds_group,
+  }->
+  file { "$ds_bin_dir/batch_import.sh":
+    ensure => present,
+    source  =>  "puppet:///modules/dspace/batch_import.sh",
   }
 
   # assetstore
