@@ -4,14 +4,10 @@
 
 MAIL=mail.txt
 
-#ADDRESS=`cat $DSPACE_HOME/config/dspace.cfg | grep mail.admin | awk {'print $3'}`
-#ADDRESS=george.hamilton@ed.ac.uk
 ADDRESS=<%= @ds_mailfrom %>
-
-HOSTNAME=`cat $DSPACE_HOME/config/dspace.cfg | grep "dspace.hostname =" | awk {'print $3'}`
 HOSTNAME=<%= @ds_hostname %>
 
-USAGE=`df -k | grep /home | awk '{print $5}' | sed s/%//`
+USAGE=`df -k | grep /var/data | awk '{print $5}' | sed s/%//`
 
 RET_VAL=0
 if [ "$USAGE" -gt "80" ] ; then

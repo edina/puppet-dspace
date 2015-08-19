@@ -1,7 +1,10 @@
 class dspace::config {
-  $db_url  = hiera('db::url')
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
+  $db_name = hiera('db::name')
+  $db_port = hiera('db::port')
+  $db_host = hiera('db::host')
+  $db_url = "jdbc:postgresql://${db_host}:${db_port}/${db_name}"
 
   $tomcat_port = hiera('common::tomcat::port')
   $tomcat_dir = hiera('common::tomcat::root')
@@ -98,6 +101,10 @@ class dspace::config {
   file { "$ds_bin_dir/check_disk_usage.sh":
     ensure => present,
     content => template('dspace/check_disk_usage.sh.erb'),
+  }->
+  file { "$ds_bin_dir/backup.sh":
+    ensure => present,
+    content => template('dspace/backup.sh.erb'),
   }
 
   # assetstore

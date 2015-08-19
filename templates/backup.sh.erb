@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# back up dspace database
+
+DATE=`date "+%Y-%m-%d"`
+DUMP_FILE="$HOME"/backups/"$DATE"_"$PROJECT_NAME"_backup.dump
+
+HOST=<%= db_host %>
+PORT=<%= db_port %>
+DB_NAME=<%= db_name %>
+DB_USER=<%= db_user %>
+
+echo "Dump database to $DUMP_FILE ..."
+echo "Using: pg_dump -h $HOST -p $PORT -U $USER -Fc $DB_NAME"
+pg_dump -h $HOST -p $PORT -U $USER -Fc $DB_NAME > $DUMP_FILE
+
+echo "Done."
+
+exit 0
