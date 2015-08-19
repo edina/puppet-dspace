@@ -80,6 +80,10 @@ class dspace::config {
   file { "$ds_modules_conf_dir/swordv2-server.cfg":
     ensure  => present,
     content => template('dspace/swordv2-server.cfg.erb'),
+  }->
+  file { "$ds_modules_conf_dir/curate.cfg":
+    ensure  => present,
+    content => template('dspace/curate.cfg.erb'),
   }
 
   # bin
