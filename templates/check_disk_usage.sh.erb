@@ -1,0 +1,31 @@
+#!/bin/bash
+
+. ~/.bashrc
+
+MAIL=mail.txt
+
+ADDRESS=`cat $DSPACE_HOME/config/dspace.cfg | grep mail.admin | awk {'print $3'}`
+#ADDRESS=george.hamilton@ed.ac.uk
+HOSTNAME=`cat $DSPACE_HOME/config/dspace.cfg | grep "dspace.hostname =" | awk {'print $3'}`
+
+USAGE=`df -k | grep /home | awk '{print $5}' | sed s/%//`
+
+RET_VAL=0
+if [ "$USAGE" -gt "80" ] ; then
+    echo "Subject: $PROJECT_NAME Disk usage" > $MAIL
+    echo "Reply-to: george.hamilton@ed.ac.uk" >> $MAIL
+
+    echo "$PROJECT_NAME on $HOSTNAME is currently using $USAGE% of disk space" >> $MAIL
+
+    /bin/mail -s "test" $ADDRESS < $MAIL
+
+    RET_VAL=$?
+
+    if [ $RET_VAL -eq 0 ] ; then
+        rm $MAIL
+    else
+        echo "$RET_VAL: Problem sending mail."
+    fi
+fi
+
+exit $RET_VAL

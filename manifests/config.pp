@@ -94,6 +94,10 @@ class dspace::config {
   file { "$ds_bin_dir/batch_import.sh":
     ensure => present,
     source  =>  "puppet:///modules/dspace/batch_import.sh",
+  }->
+  file { "$ds_bin_dir/check_disk_usage.sh":
+    ensure => present,
+    content => template('dspace/check_disk_usage.sh.erb'),
   }
 
   # assetstore
