@@ -13,7 +13,6 @@ class dspace::config {
   $ds_group            = $dspace::dsgroup
   $ds_conf_dir         = "${ds_root}/config"
   $ds_bin_dir          = "${ds_root}/bin"
-  $ds_log_dir          = "${ds_root}/log"
   $ds_modules_conf_dir = "$ds_conf_dir/modules"
   $ds_solr_dir         = "${ds_root}/solr"
   $ds_tmp_dir         = "${ds_root}/tmp"
@@ -22,6 +21,7 @@ class dspace::config {
   $ds_datadir          = hiera('ds::datadir')
   $ds_handleprefix     = hiera('ds::handleprefix')
   $ds_handleurl        = hiera('ds::handleurl')
+  $ds_log_dir          = hiera('ds::logdir', "${ds_root}/log")
   $ds_maildisabled     = hiera('ds::maildisabled', 'false')
   $ds_mailfrom         = hiera('ds::mailfrom')
   $ds_mailserver       = hiera('common::smtp::host')
