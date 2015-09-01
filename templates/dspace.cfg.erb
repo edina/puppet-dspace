@@ -224,10 +224,10 @@ assetstore.dir = <%= @ds_datadir %>/assetstore
 # You may provide your own configuration here, existing alternatives are:
 # log.init.config = ${dspace.dir}/config/log4j.xml
 # log.init.config = ${dspace.dir}/config/log4j-console.properties
-log.init.config = ${dspace.dir}/config/log4j.properties
+log.init.config=<%= @ds_conf_dir %>/log4j.properties
 
 # Where to put the logs (used in configuration only)
-log.dir = ${dspace.dir}/log
+log.dir=<%= @ds_log_dir %>
 
 # If enabled, the logging and the solr statistics system will look for
 # an X-Forward header. If it finds it, it will use this for the user IP address
@@ -250,7 +250,7 @@ identifier.doi.prefix=<%= @doi_prefix %>
 # If you want to, you can further separate your namespace. Should all the suffix
 # of all DOIs minted by DSpace start with a special string to separate it from
 # other services also minting DOIs under your prefix?
-identifier.doi.namespaceseparator = <%= @doi_ns %>
+identifier.doi.namespaceseparator=<%= @doi_ns %>
 
 ##### Plugin management #####
 
