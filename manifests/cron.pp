@@ -75,7 +75,7 @@ class dspace::cron {
     hour     => 6,
     monthday => 1,
   }
-  cron { cleanup:
+  cron { stats-cleanup:
     command  => "${ds_bin_dir}/dspace stats-util -s",
     user     => "${ds_user}",
     minute   => 0,
