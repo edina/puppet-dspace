@@ -43,7 +43,7 @@ class dspace::config {
 
   user{ "$ds_user":
     ensure => "present",
-    groups => "$dspace::dsgroup",
+    groups => ["$dspace::dsgroup", 'clamupdate'],
   }
 
   file { "$ds_root":
@@ -90,6 +90,10 @@ class dspace::config {
   file { "$ds_modules_conf_dir/solr-statistics.cfg":
     ensure  => present,
     content => template('dspace/solr-statistics.cfg.erb'),
+  }->
+  file { "$ds_modules_conf_dir/usage-statistics.cfg":
+    ensure  => present,
+    content => template('dspace/usage-statistics.cfg.erb'),
   }->
   file { "$ds_modules_conf_dir/swordv2-server.cfg":
     ensure  => present,
