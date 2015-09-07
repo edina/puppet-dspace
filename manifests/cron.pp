@@ -33,7 +33,7 @@ class dspace::cron {
     minute  => 30
   }
   cron { stats-general:
-    command => "${ds_bin_dir}/dspace stat-general",
+    command => "${ds_bin_dir}/dspace stat-general 1> /dev/null",
     user    => "${ds_user}",
     hour    => 1,
     minute  => 35
@@ -57,7 +57,7 @@ class dspace::cron {
     minute  => 50
   }
   cron { filter-media:
-    command => "${ds_bin_dir}/dspace filter-media",
+    command => "${ds_bin_dir}/dspace filter-media 1> /dev/null",
     user    => "${ds_user}",
     hour    => 3,
     minute  => 0
@@ -92,7 +92,7 @@ class dspace::cron::prime {
   class { 'dspace::cron':}
 
   cron { generate-sitemap:
-    command => "${ds_bin_dir}/dspace generate-sitemaps",
+    command => "${ds_bin_dir}/dspace generate-sitemaps 1> /dev/null",
     user    => "${ds_user}",
     hour    => [0, 8, 16],
     minute  => 0
