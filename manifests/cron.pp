@@ -15,13 +15,13 @@ class dspace::cron {
     minute  => 20
   }
   cron { index-discovery-optimise:
-    command => "${ds_bin_dir}/dspace index-discovery -o",
+    command => "${ds_bin_dir}/dspace index-discovery -o 1> /dev/null",
     user    => "${ds_user}",
     hour    => 0,
     minute  => 30
   }
   cron { stats-util-index:
-    command => "${ds_bin_dir}/dspace stats-util -i",
+    command => "${ds_bin_dir}/dspace stats-util -i 1> /dev/null",
     user    => "${ds_user}",
     hour    => 1,
     minute  => 0
@@ -39,7 +39,7 @@ class dspace::cron {
     minute  => 35
   }
   cron { stats-monthly:
-    command => "${ds_bin_dir}/dspace stat-monthly",
+    command => "${ds_bin_dir}/dspace stat-monthly 1> /dev/null",
     user    => "${ds_user}",
     hour    => 1,
     minute  => 40

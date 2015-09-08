@@ -1,5 +1,5 @@
 class dspace::config {
-  $clamav_group = hiera('clamav::group')
+  $clamav_group = hiera('clamav::group', 'clamupdate')
 
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
@@ -45,7 +45,7 @@ class dspace::config {
 
   user{ "$ds_user":
     ensure => "present",
-    groups => ["$dspace::dsgroup", "${clamav_group}"],
+    groups => ["${dspace::dsgroup}", "${clamav_group}"],
   }
 
   file { "$ds_root":
@@ -55,6 +55,12 @@ class dspace::config {
     group   => $ds_group,
     }->
   file { "$ds_conf_dir":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_root/reports":
     ensure => directory,
     mode    => '775',
     owner   => $ds_user,
@@ -92,10 +98,6 @@ class dspace::config {
   file { "$ds_modules_conf_dir/solr-statistics.cfg":
     ensure  => present,
     content => template('dspace/solr-statistics.cfg.erb'),
-  }->
-  file { "$ds_modules_conf_dir/usage-statistics.cfg":
-    ensure  => present,
-    content => template('dspace/usage-statistics.cfg.erb'),
   }->
   file { "$ds_modules_conf_dir/swordv2-server.cfg":
     ensure  => present,
@@ -213,6 +215,18 @@ class dspace::config {
     group   => $ds_group,
   }->
   file { "$ds_solr_dir/search/data":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/statistics":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/statistics/data":
     ensure => directory,
     mode    => '775',
     owner   => $ds_user,
