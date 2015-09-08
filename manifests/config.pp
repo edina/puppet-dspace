@@ -1,4 +1,6 @@
 class dspace::config {
+  $clamav_group = hiera('clamav::group')
+
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
   $db_name = hiera('db::name')
@@ -43,7 +45,7 @@ class dspace::config {
 
   user{ "$ds_user":
     ensure => "present",
-    groups => ["$dspace::dsgroup", 'clamupdate'],
+    groups => ["$dspace::dsgroup", "${clamav_group}"],
   }
 
   file { "$ds_root":
