@@ -3,13 +3,13 @@ class dspace::cron {
   $ds_user = "${dspace::dsuser}"
 
   cron { oai-import:
-    command => "${ds_bin_dir}/dspace oai import -o",
+    command => "${ds_bin_dir}/dspace oai import -o 1> /dev/null",
     user    => "${ds_user}",
     hour    => 0,
     minute  => 10,
   }
   cron { index-discovery:
-    command => "${ds_bin_dir}/dspace index-discovery",
+    command => "${ds_bin_dir}/dspace index-discovery 1> /dev/null",
     user    => "${ds_user}",
     hour    => 0,
     minute  => 20
@@ -27,7 +27,7 @@ class dspace::cron {
     minute  => 0
   }
   cron { stats-util-optimise:
-    command => "${ds_bin_dir}/dspace stats-util -o",
+    command => "${ds_bin_dir}/dspace stats-util -o 1> /dev/null",
     user    => "${ds_user}",
     hour    => 1,
     minute  => 30
@@ -45,13 +45,13 @@ class dspace::cron {
     minute  => 40
   }
   cron { stats-report-general:
-    command => "${ds_bin_dir}/dspace stat-report-general",
+    command => "${ds_bin_dir}/dspace stat-report-general 1> /dev/null",
     user    => "${ds_user}",
     hour    => 1,
     minute  => 45
   }
   cron { stat-report-monthly:
-    command => "${ds_bin_dir}/dspace stat-report-monthly",
+    command => "${ds_bin_dir}/dspace stat-report-monthly 1> /dev/null",
     user    => "${ds_user}",
     hour    => 1,
     minute  => 50
@@ -63,7 +63,7 @@ class dspace::cron {
     minute  => 0
   }
   cron { curate:
-    command => "${ds_bin_dir}/dspace curate -q admin_ui",
+    command => "${ds_bin_dir}/dspace curate -q admin_ui 1> /dev/null",
     user    => "${ds_user}",
     hour    => 4,
     minute  => 0

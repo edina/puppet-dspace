@@ -18,6 +18,7 @@ class dspace::config {
   $ds_bin_dir          = "${ds_root}/bin"
   $ds_modules_conf_dir = "$ds_conf_dir/modules"
   $ds_solr_dir         = "${ds_root}/solr"
+  $ds_var_dir         = "${ds_root}/var"
   $ds_tmp_dir         = "${ds_root}/tmp"
   $ds_hostname         = $fqdn
   $ds_baseurl          = hiera('ds::baseurl')
@@ -239,6 +240,20 @@ class dspace::config {
     group   => $ds_group,
   }->
   file { "$ds_solr_dir/oai/data":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }
+
+  # var
+  file { "$ds_var_dir":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_var_dir/oai":
     ensure => directory,
     mode    => '775',
     owner   => $ds_user,
