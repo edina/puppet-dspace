@@ -8,6 +8,12 @@ class dspace::cron {
     hour    => 0,
     minute  => 10,
   }
+  cron { generate-sitemap:
+    command => "${ds_bin_dir}/dspace generate-sitemaps 1> /dev/null",
+    user    => "${ds_user}",
+    hour    => [0, 8, 16],
+    minute  => 0
+  }
   cron { index-discovery:
     command => "${ds_bin_dir}/dspace index-discovery 1> /dev/null",
     user    => "${ds_user}",
@@ -85,18 +91,32 @@ class dspace::cron {
   }
 }
 
-class dspace::cron::prime {
+class dspace::cron::beta {
   $ds_bin_dir = "${dspace::dsroot}/bin"
   $ds_user = "${dspace::dsuser}"
 
   class { 'dspace::cron':}
 
-  cron { generate-sitemap:
-    command => "${ds_bin_dir}/dspace generate-sitemaps 1> /dev/null",
+  # enable when live
+  # cron { doi-updater:
+  #   command => "${ds_bin_dir}/dspace doi-organiser -u 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -s 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -r 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -d 1> /dev/null",
+  #   user    => "${ds_user}",
+  #   hour    => ['8-19'],
+  #   minute  => 5
+  # }
+  cron { embargo-lifter:
+    command => "${ds_bin_dir}/dspace embargo-lifter 1> /dev/null",
     user    => "${ds_user}",
-    hour    => [0, 8, 16],
-    minute  => 0
+    hour    => 5,
+    minute  => 15,
   }
+}
+
+class dspace::cron::prime {
+  $ds_bin_dir = "${dspace::dsroot}/bin"
+  $ds_user = "${dspace::dsuser}"
+  class { 'dspace::cron':}
+
   cron { doi-updater:
     command => "${ds_bin_dir}/dspace doi-organiser -u 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -s 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -r 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -d 1> /dev/null",
     user    => "${ds_user}",
@@ -104,13 +124,13 @@ class dspace::cron::prime {
     minute  => 5
   }
   cron { sub-daily:
-    command => "${ds_bin_dir}/dspace sub-daily",
+    command => "${ds_bin_dir}/dspace sub-daily 1> /dev/null",
     user    => "${ds_user}",
     hour    => 2,
     minute  => 0
   }
   cron { embargo-lifter:
-    command => "${ds_bin_dir}/dspace embargo-lifter",
+    command => "${ds_bin_dir}/dspace embargo-lifter 1> /dev/null",
     user    => "${ds_user}",
     hour    => 5,
     minute  => 15,

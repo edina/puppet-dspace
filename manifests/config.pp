@@ -137,12 +137,6 @@ class dspace::config {
     owner   => $ds_user,
     group   => $ds_group,
   }->
-  file { "$ds_bin_dir/dspace":
-    ensure  => present,
-    mode    => '770',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }->
   file { "$ds_bin_dir/service.sh":
     ensure  => present,
     content => template('dspace/service.sh.erb'),
