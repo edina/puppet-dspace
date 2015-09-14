@@ -136,14 +136,14 @@ class dspace::cron::prime {
     minute  => 15,
   }
   cron { checker:
-    command => "${ds_bin_dir}/dspace checker -l -p",
+    command => "${ds_bin_dir}/dspace checker -l -p 1> /dev/null",
     user    => "${ds_user}",
     hour    => 4,
     minute  => 0,
     weekday => 1,
   }
   cron { checker-emailer:
-    command => "${ds_bin_dir}/dspace checker-emailer -c",
+    command => "${ds_bin_dir}/dspace checker-emailer -c 1> /dev/null",
     user    => "${ds_user}",
     hour    => 5,
     minute  => 0,
