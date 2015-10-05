@@ -47,6 +47,13 @@ class dspace::config {
   user{ "$ds_user":
     ensure => "present",
     groups => ["${dspace::dsgroup}", "${clamav_group}"],
+  }->
+  file { "/home/$ds_user/.bashrc":
+    ensure => present,
+    source  =>  "puppet:///modules/dspace/bashrc",
+    mode    => '600',
+    owner   => $ds_user,
+    group   => $ds_group,
   }
 
   file { "$ds_root":
@@ -54,7 +61,7 @@ class dspace::config {
     mode    => '775',
     owner   => $ds_user,
     group   => $ds_group,
-    }->
+  }->
   file { "$ds_conf_dir":
     ensure => directory,
     mode    => '775',

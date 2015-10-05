@@ -1,0 +1,9 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+export JAVA_OPTS="-Xmx2048m -Xms256m -XX:MaxPermSize=256m -Dfile.encoding=UTF-8"
