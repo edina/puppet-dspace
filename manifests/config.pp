@@ -1,5 +1,5 @@
 class dspace::config {
-  $clamav_group = hiera('clamav::group', 'clamupdate')
+  $clamav_group = hiera('clamav::group', 'clamscan')
 
   $db_user = hiera('db::user')
   $db_pass = hiera('db::pass')
@@ -47,13 +47,6 @@ class dspace::config {
   user{ "$ds_user":
     ensure => "present",
     groups => ["${dspace::dsgroup}", "${clamav_group}"],
-  }->
-  file { "/home/$ds_user/.bashrc":
-    ensure => present,
-    source  =>  "puppet:///modules/dspace/bashrc",
-    mode    => '600',
-    owner   => $ds_user,
-    group   => $ds_group,
   }
 
   file { "$ds_root":
