@@ -32,6 +32,6 @@ fi
 
 source=`pwd`
 
-$DSPACE_HOME/bin/dspace ds-import --add --workflow --source=$source --mapfile=$source/mapfile.txt --eperson=$email --collection=$collection $test
+<%= @ds_bin_dir %>/dspace ds-import --add --workflow --source=$source --mapfile=$source/mapfile.txt --eperson=$email --collection=$collection $test
 
 exit $?

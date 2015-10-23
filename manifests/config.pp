@@ -132,7 +132,7 @@ class dspace::config {
   }->
   file { "$ds_bin_dir/batch_import.sh":
     ensure => present,
-    source  =>  "puppet:///modules/dspace/batch_import.sh",
+    content => template('dspace/batch_import.sh.erb'),
     mode    => '774',
     owner   => $ds_user,
     group   => $ds_group,
