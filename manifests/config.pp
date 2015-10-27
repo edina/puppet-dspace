@@ -199,42 +199,7 @@ class dspace::config {
   # solr
   file { "$ds_solr_dir":
     ensure => directory,
-    mode    => '775',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }->
-  file { "$ds_solr_dir/search":
-    ensure => directory,
-    mode    => '775',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }->
-  file { "$ds_solr_dir/search/data":
-    ensure => directory,
-    mode    => '775',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }->
-  file { "$ds_solr_dir/statistics":
-    ensure => directory,
-    mode    => '775',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }->
-  file { "$ds_solr_dir/statistics/data":
-    ensure => directory,
-    mode    => '775',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }->
-  file { "$ds_solr_dir/oai":
-    ensure => directory,
-    mode    => '775',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }->
-  file { "$ds_solr_dir/oai/data":
-    ensure => directory,
+    recurse => true,
     mode    => '775',
     owner   => $ds_user,
     group   => $ds_group,
