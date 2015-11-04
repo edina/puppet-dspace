@@ -52,7 +52,7 @@ class dspace::config {
 
   file { "$ds_root":
     ensure => directory,
-    mode    => '775',
+    mode    => '2775',
     owner   => $ds_user,
     group   => $ds_group,
   }->
@@ -156,7 +156,7 @@ class dspace::config {
   if $ds_datadir != $ds_root {
     file { "$ds_datadir":
       ensure => directory,
-      mode    => '775',
+      mode    => '2775',
       owner   => $ds_user,
       group   => $ds_group,
     }
