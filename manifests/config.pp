@@ -219,7 +219,6 @@ class dspace::config {
   file { "$ds_solr_dir/authority/data":
     ensure => directory,
     recurse => true,
-    mode    => '775',
     owner   => $tomcat_user,
     group   => $ds_group,
   }->
@@ -239,7 +238,6 @@ class dspace::config {
   file { "$ds_solr_dir/oai/data":
     ensure => directory,
     recurse => true,
-    mode    => '775',
     owner   => $tomcat_user,
     group   => $ds_group,
   }->
@@ -259,7 +257,6 @@ class dspace::config {
   file { "$ds_solr_dir/search/data":
     ensure => directory,
     recurse => true,
-    mode    => '775',
     owner   => $tomcat_user,
     group   => $ds_group,
   }->
@@ -279,7 +276,6 @@ class dspace::config {
   file { "$ds_solr_dir/statistics/data":
     ensure => directory,
     recurse => true,
-    mode    => '775',
     owner   => $tomcat_user,
     group   => $ds_group,
   }->
