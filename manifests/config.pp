@@ -10,6 +10,7 @@ class dspace::config {
 
   $tomcat_port = hiera('common::tomcat::port')
   $tomcat_dir = hiera('common::tomcat::root')
+  $tomcat_user = hiera('common::tomcat::user', 'tomcat')
 
   $ds_root             = $dspace::dsroot
   $ds_user             = $dspace::dsuser
@@ -199,6 +200,91 @@ class dspace::config {
   # solr
   file { "$ds_solr_dir":
     ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/solr.xml":
+    ensure => directory,
+    mode    => '660',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/authority":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/authority/data":
+    ensure => directory,
+    recurse => true,
+    mode    => '775',
+    owner   => $tomcat_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/authority/conf":
+    ensure => directory,
+    recurse => true,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/oai":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/oai/data":
+    ensure => directory,
+    recurse => true,
+    mode    => '775',
+    owner   => $tomcat_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/oai/conf":
+    ensure => directory,
+    recurse => true,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/search":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/search/data":
+    ensure => directory,
+    recurse => true,
+    mode    => '775',
+    owner   => $tomcat_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/search/conf":
+    ensure => directory,
+    recurse => true,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/statistics":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/statistics/data":
+    ensure => directory,
+    recurse => true,
+    mode    => '775',
+    owner   => $tomcat_user,
+    group   => $ds_group,
+  }->
+  file { "$ds_solr_dir/statistics/conf":
+    ensure => directory,
     recurse => true,
     mode    => '775',
     owner   => $ds_user,
@@ -208,12 +294,7 @@ class dspace::config {
   # var
   file { "$ds_var_dir":
     ensure => directory,
-    mode    => '775',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }->
-  file { "$ds_var_dir/oai":
-    ensure => directory,
+    recurse => true,
     mode    => '775',
     owner   => $ds_user,
     group   => $ds_group,
