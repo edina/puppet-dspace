@@ -23,6 +23,7 @@ class dspace::config {
   $ds_hostname         = $fqdn
   $ds_baseurl          = hiera('ds::baseurl')
   $ds_datadir          = hiera('ds::datadir')
+  $ds_handledir        = hiera('ds::handledir', "${ds_root}/handle-server")
   $ds_handleprefix     = hiera('ds::handleprefix')
   $ds_handleurl        = hiera('ds::handleurl')
   $ds_log_dir          = hiera('ds::logdir', "${ds_root}/log")
@@ -146,6 +147,7 @@ class dspace::config {
   }->
   file { "$ds_bin_dir/start-handle-server":
     ensure  => present,
+    content => template('dspace/start-handle-server.erb'),
     mode    => '770',
     owner   => $ds_user,
     group   => $ds_group,
