@@ -75,7 +75,7 @@ class dspace::cron {
     minute  => 0
   }
   cron { cleanup:
-    command  => "${ds_bin_dir}/dspace cleanup",
+    command  => "${ds_bin_dir}/dspace cleanup 1> /dev/null",
     user     => "${ds_user}",
     minute   => 0,
     hour     => 6,
@@ -98,12 +98,12 @@ class dspace::cron::beta {
   class { 'dspace::cron':}
 
   # enable when live
-  # cron { doi-updater:
-  #   command => "${ds_bin_dir}/dspace doi-organiser -u 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -s 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -r 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -d 1> /dev/null",
-  #   user    => "${ds_user}",
-  #   hour    => ['8-19'],
-  #   minute  => 5
-  # }
+  cron { doi-updater:
+    command => "${ds_bin_dir}/dspace doi-organiser -u 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -s 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -r 1> /dev/null ; ${ds_bin_dir}/dspace doi-organiser -d 1> /dev/null",
+    user    => "${ds_user}",
+    hour    => ['8-19'],
+    minute  => 5
+  }
   cron { embargo-lifter:
     command => "${ds_bin_dir}/dspace embargo-lifter 1> /dev/null",
     user    => "${ds_user}",
