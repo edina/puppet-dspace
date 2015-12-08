@@ -19,14 +19,14 @@ class dspace::config {
   $ds_bin_dir          = "${ds_root}/bin"
   $ds_modules_conf_dir = "$ds_conf_dir/modules"
   $ds_solr_dir         = "${ds_root}/solr"
-  $ds_var_dir         = "${ds_root}/var"
-  $ds_tmp_dir         = "${ds_root}/tmp"
-  $ds_hostname         = $fqdn
+  $ds_var_dir          = "${ds_root}/var"
+  $ds_tmp_dir          = "${ds_root}/tmp"
   $ds_baseurl          = hiera('ds::baseurl')
   $ds_datadir          = hiera('ds::datadir')
   $ds_handledir        = hiera('ds::handledir', "${ds_root}/handle-server")
   $ds_handleprefix     = hiera('ds::handleprefix')
   $ds_handleurl        = hiera('ds::handleurl')
+  $ds_hostname         = hiera('ds::hostname', $fqdn)
   $ds_log_dir          = hiera('ds::logdir', "${ds_root}/log")
   $ds_maildisabled     = hiera('ds::maildisabled', 'false')
   $ds_mailfrom         = hiera('ds::mailfrom')
