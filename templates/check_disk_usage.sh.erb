@@ -11,12 +11,9 @@ USAGE=`df -k | grep /var/data | awk '{print $5}' | sed s/%//`
 
 RET_VAL=0
 if [ "$USAGE" -gt "80" ] ; then
-    echo "Subject: $PROJECT_NAME Disk usage" > $MAIL
-    echo "Reply-to: george.hamilton@ed.ac.uk" >> $MAIL
+    echo "/var/data on $HOSTNAME is currently using $USAGE% of disk space" >> $MAIL
 
-    echo "$PROJECT_NAME on $HOSTNAME is currently using $USAGE% of disk space" >> $MAIL
-
-    /bin/mail -s "test" $ADDRESS < $MAIL
+    /bin/mail -s "DataShare Disk Usage" $ADDRESS < $MAIL
 
     RET_VAL=$?
 
