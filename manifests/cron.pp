@@ -62,12 +62,6 @@ class dspace::cron {
     hour    => 1,
     minute  => 50
   }
-  cron { filter-media:
-    command => "${ds_bin_dir}/dspace filter-media 1> /dev/null",
-    user    => "${ds_user}",
-    hour    => 3,
-    minute  => 0
-  }
   cron { curate:
     command => "${ds_bin_dir}/dspace curate -q admin_ui 1> /dev/null",
     user    => "${ds_user}",
@@ -110,6 +104,12 @@ class dspace::cron::beta {
     hour    => 5,
     minute  => 15,
   }
+  cron { filter-media:
+    command => "${ds_bin_dir}/dspace filter-media 1> /dev/null",
+    user    => "${ds_user}",
+    hour    => 3,
+    minute  => 0
+  }
 }
 
 class dspace::cron::prime {
@@ -149,4 +149,11 @@ class dspace::cron::prime {
     minute  => 0,
     weekday => 1,
   }
+  cron { filter-media:
+    command => "${ds_bin_dir}/dspace filter-media 1> /dev/null",
+    user    => "${ds_user}",
+    hour    => 3,
+    minute  => 0
+  }
+
 }
