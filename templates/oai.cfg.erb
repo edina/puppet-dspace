@@ -11,7 +11,7 @@ storage=<%= @oai_storage %>
 solr.url=http://localhost:<%= @tomcat_port %>/solr/oai
 # OAI persistent identifier prefix.
 # Format - oai:PREFIX:HANDLE
-identifier.prefix = localhost
+identifier.prefix = <%= @ds_hostname %>
 # Base url for bitstreams
 bitstream.baseUrl = <%= @ds_url %>
 
