@@ -6,7 +6,7 @@ MAIL=mail.txt
 
 ADDRESS=<%= @ds_mailfrom %>
 
-USAGE=`df -k | grep /var/data | awk '{print $5}' | sed s/%//`
+USAGE=`df -k | grep -e "/var/data$" | awk '{print $5}' | sed s/%//`
 
 RET_VAL=0
 if [ "$USAGE" -gt "80" ] ; then
@@ -15,7 +15,7 @@ if [ "$USAGE" -gt "80" ] ; then
 
     echo "/var/data on $HOSTNAME is currently using $USAGE% of disk space" > $MAIL
 
-    AVAILABLE=`df -kh | grep /var/data | awk '{print $4}'`
+    AVAILABLE=`df -kh | grep -e "/var/data$" | awk '{print $4}'`
     echo -e "\n$AVAILABLE space is now available" >> $MAIL
 
     /bin/mail -s "$PROJECT Disk Usage" $ADDRESS < $MAIL
