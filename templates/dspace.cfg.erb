@@ -1739,7 +1739,8 @@ plugin.sequence.org.dspace.plugin.ItemHomeProcessor = \
 ##### Upload File settings #####
 
 # Where to temporarily store uploaded files
-upload.temp.dir = ${dspace.dir}/upload
+#upload.temp.dir = ${dspace.dir}/upload
+upload.temp.dir = <%= @ds_uploaddir %>
 
 # Maximum size of uploaded files in bytes, negative setting will result in no limit being set
 # 512Mb

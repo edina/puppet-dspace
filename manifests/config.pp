@@ -17,6 +17,7 @@ class dspace::config {
   $ds_group            = $dspace::dsgroup
   $ds_conf_dir         = "${ds_root}/config"
   $ds_bin_dir          = "${ds_root}/bin"
+  $ds_webapps_dir      = "${ds_root}/webapps"
   $ds_modules_conf_dir = "$ds_conf_dir/modules"
   $ds_solr_dir         = "${ds_root}/solr"
   $ds_var_dir          = "${ds_root}/var"
@@ -33,6 +34,7 @@ class dspace::config {
   $ds_mailserver       = hiera('common::smtp::host')
   $ds_name             = hiera('ds::name')
   $ds_url              = hiera('ds::url')
+  $ds_uploaddir        = hiera('ds::uploaddir', "${ds_datadir}/upload")
 
   $doi_user   = hiera('doi::user')
   $doi_pass   = hiera('doi::pass')
@@ -169,10 +171,25 @@ class dspace::config {
     owner   => $ds_user,
     group   => $ds_group,
   }->
+  file { "$ds_uploaddir":
+    ensure => directory,
+    mode    => '770',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
   exec { "asset_permissions":
     command => 'find . -type d -exec chmod 0770 {} \;',
     cwd     => "$ds_datadir/assetstore",
     path    => "/usr/bin/",
+  }
+
+  # coccon
+  file { "$ds_webapps_dir/xmlui/WEB-INF/cocoon/properties/core.properties":
+    ensure  => present,
+    content => template('dspace/core.properties.erb'),
+    mode    => '660',
+    owner   => $ds_user,
+    group   => $ds_group,
   }
 
   # log
