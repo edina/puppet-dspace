@@ -18,7 +18,7 @@ class dspace::config {
   $ds_conf_dir         = "${ds_root}/config"
   $ds_bin_dir          = "${ds_root}/bin"
   $ds_webapps_dir      = "${ds_root}/webapps"
-  $ds_modules_conf_dir = "$ds_conf_dir/modules"
+  $ds_modules_conf_dir = "${ds_conf_dir}/modules"
   $ds_solr_dir         = "${ds_root}/solr"
   $ds_var_dir          = "${ds_root}/var"
   $ds_tmp_dir          = "${ds_root}/tmp"
@@ -181,15 +181,6 @@ class dspace::config {
     command => 'find . -type d -exec chmod 0770 {} \;',
     cwd     => "$ds_datadir/assetstore",
     path    => "/usr/bin/",
-  }
-
-  # coccon
-  file { "$ds_webapps_dir/xmlui/WEB-INF/cocoon/properties/core.properties":
-    ensure  => present,
-    content => template('dspace/core.properties.erb'),
-    mode    => '660',
-    owner   => $ds_user,
-    group   => $ds_group,
   }
 
   # log
