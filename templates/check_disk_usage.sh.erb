@@ -11,7 +11,7 @@ USAGE=`df -k | grep -e "/var/data$" | awk '{print $5}' | sed s/%//`
 RET_VAL=0
 if [ "$USAGE" -gt "80" ] ; then
     HOSTNAME=<%= @fqdn %>
-    PROJECT=<%= @ds_name %>
+    PROJECT='<%= @ds_name %>'
 
     echo "/var/data on $HOSTNAME is currently using $USAGE% of disk space" > $MAIL
 
