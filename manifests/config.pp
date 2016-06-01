@@ -214,6 +214,11 @@ class dspace::config {
     owner   => $ds_user,
     group   => $ds_group,
   }->
+  file { "$ds_solr_dir/solr.xml":
+    mode    => '660',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }->
   file { "$ds_solr_dir/authority":
     ensure => directory,
     mode    => '775',
