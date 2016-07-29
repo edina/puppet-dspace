@@ -3,20 +3,31 @@
 . ~/.bashrc
 
 MAIL=mail.txt
-
 ADDRESS=<%= @ds_mailfrom %>
+SEND=false
 
-USAGE=`df -k | grep -e "/var/data$" | awk '{print $5}' | sed s/%//`
+function check_partition {
+    USAGE=`df -k | grep -e "$1$" | awk '{print $5}' | sed s/%//`
+    echo $1 $USAGE
+
+
+    if [ "$USAGE" != "" ] && [ "$USAGE" -gt "10" ] ; then
+        SEND=true
+
+        echo "$1 on $HOSTNAME is currently using $USAGE% of disk space" >> $MAIL
+        AVAILABLE=`df -kh | grep -e "$1$" | awk '{print $4}'`
+        echo -e "\n$AVAILABLE space is now available\n" >> $MAIL
+    fi
+}
+
+check_partition /var/data
+check_partition /
+check_partition /var/datastore
 
 RET_VAL=0
-if [ "$USAGE" -gt "80" ] ; then
+if [ "$SEND" = true ] ; then
     HOSTNAME=<%= @fqdn %>
     PROJECT='<%= @ds_name %>'
-
-    echo "/var/data on $HOSTNAME is currently using $USAGE% of disk space" > $MAIL
-
-    AVAILABLE=`df -kh | grep -e "/var/data$" | awk '{print $4}'`
-    echo -e "\n$AVAILABLE space is now available" >> $MAIL
 
     /bin/mail -s "$PROJECT Disk Usage" $ADDRESS < $MAIL
 
