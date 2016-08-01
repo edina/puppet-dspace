@@ -8,10 +8,8 @@ SEND=false
 
 function check_partition {
     USAGE=`df -k | grep -e "$1$" | awk '{print $5}' | sed s/%//`
-    echo $1 $USAGE
 
-
-    if [ "$USAGE" != "" ] && [ "$USAGE" -gt "10" ] ; then
+    if [ "$USAGE" != "" ] && [ "$USAGE" -gt "80" ] ; then
         SEND=true
 
         echo "$1 on $HOSTNAME is currently using $USAGE% of disk space" >> $MAIL
