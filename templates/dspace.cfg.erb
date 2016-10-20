@@ -898,6 +898,8 @@ webui.licence_bundle.show = true
 # since that usually contains email addresses which ought to be kept
 # private and is mainly of interest to administrators:
 metadata.hide.dc.description.provenance = true
+#metadata.hide.ds.embargonotify.name = true
+#metadata.hide.ds.embargonotify.email = true
 
 ##### Settings for Submission Process #####
 
@@ -2105,7 +2107,7 @@ xmlui.controlpanel.activity.ipheader = NS-X-Forwarded-For
 # empty/commented out - request-copy not allowed
 request.item.type = all
 # Helpdesk E-mail
-mail.helpdesk = dspace-help@myu.edu
+mail.helpdesk = <%= @ds_mailfrom %>
 # Should all Request Copy emails go to the helpdesk instead of the item submitter?
 request.item.helpdesk.override = false
 
