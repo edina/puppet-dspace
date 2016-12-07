@@ -115,6 +115,8 @@ class dspace::cron::beta {
 class dspace::cron::prime {
   $ds_bin_dir = "${dspace::dsroot}/bin"
   $ds_user = "${dspace::dsuser}"
+  $ds_fmoptions = hiera('ds::fmoptions')
+
   class { 'dspace::cron':}
 
   cron { doi-updater:
@@ -150,7 +152,7 @@ class dspace::cron::prime {
     weekday => 1,
   }
   cron { filter-media:
-    command => "${ds_bin_dir}/dspace filter-media 1> /dev/null",
+    command => "${ds_bin_dir}/dspace filter-media $ds_fmoptions 1> /dev/null",
     user    => "${ds_user}",
     hour    => 3,
     minute  => 0
