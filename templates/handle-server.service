@@ -1,0 +1,14 @@
+[Unit]
+Description=DSpace handle server
+After=syslog.target network.target
+
+[Service]
+Type=forking
+ExecStart=<%= @ds_root %>/bin/start-handle-server
+ExecStop=<%= @ds_root %>/bin/stop-handle-server
+
+User=<%= @ds_user %>
+Group=<%= @ds_group %>
+
+[Install]
+WantedBy=multi-user.target
