@@ -147,7 +147,9 @@ class dspace::config {
     mode    => '774',
     owner   => $ds_user,
     group   => $ds_group,
-  }->
+  }
+
+  # handle server
   file { "$ds_bin_dir/start-handle-server":
     ensure  => present,
     content => template('dspace/start-handle-server.erb'),
@@ -161,6 +163,10 @@ class dspace::config {
     mode    => '770',
     owner   => $ds_user,
     group   => $ds_group,
+  }
+  service { "handle":
+    ensure => "running",
+    enable => true,
   }
 
   # assetstore
