@@ -162,10 +162,6 @@ class dspace::config {
     owner   => $ds_user,
     group   => $ds_group,
   }
-  file { "/usr/lib/systemd/system/handle.service":
-    ensure => present,
-    content => template('dspace/handle-server.service'),
-  }
 
   # assetstore
   if $ds_datadir != $ds_root {
