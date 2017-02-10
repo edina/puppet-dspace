@@ -164,10 +164,6 @@ class dspace::config {
     owner   => $ds_user,
     group   => $ds_group,
   }
-  service { "handle":
-    ensure => "running",
-    enable => true,
-  }
 
   # assetstore
   if $ds_datadir != $ds_root {
