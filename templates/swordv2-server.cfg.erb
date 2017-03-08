@@ -369,7 +369,7 @@ simpledc.isReferencedBy = dc.relation.isreferencedby
 #simpledc.isRequiredBy = dc.relation.isrequiredby
 #simpledc.issued = dc.date.issued
 simpledc.isVersionOf = dc.relation.isversionof
-#simpledc.language = dc.language
+simpledc.language = dc.language.iso
 #simpledc.license = dc.????
 #simpledc.mediator = dc.????
 #simpledc.medium = dc.format.medium
@@ -384,8 +384,8 @@ simpledc.rights = dc.rights
 #simpledc.rightsHolder = dc.rights
 simpledc.source = dc.source
 simpledc.spatial = dc.coverage.spatial
-#simpledc.subject = dc.subject
-#simpledc.tableOfContents = dc.????
+simpledc.subject = dc.subject
+simpledc.tableOfContents = dc.description.tableofcontents
 #simpledc.temporal = dc.coverage.temporal
 simpledc.title = dc.title
 simpledc.type = dc.type
@@ -414,13 +414,14 @@ metadata.replaceable = dc.description.abstract, \
   						dc.contributor.author, \
   						dc.date, \
   						dc.description, \
+                        dc.description.tableofcontents, \
   						dc.format.extent, \
   						dc.format, dc.identifier, \
+  						dc.language.iso, \
   						dc.relation.ispartof, \
   						dc.relation.isreferencedby, \
   						dc.relation.isreplacedby, \
   						dc.relation.isrequiredby, \
-  						dc.language, \
   						dc.format.medium, \
   						dc.date.modified, \
   						dc.publisher, \
