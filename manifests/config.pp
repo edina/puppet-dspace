@@ -210,6 +210,13 @@ class dspace::config {
     owner   => $ds_user,
     group   => $ds_group,
   }
+  file { "$ds_conf_dir/log4j-handle-plugin.properties":
+    ensure  => present,
+    content => template('dspace/log4j-handle-plugin.properties.erb'),
+    mode    => '660',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }
   file { "$ds_conf_dir/log4j-solr.properties":
     ensure  => present,
     content => template('dspace/log4j-solr.properties.erb'),
