@@ -798,8 +798,8 @@ event.consumer.authority.filters = Item+Modify|Modify_Metadata
 #testConsumer.verbose = true
 
 # datashare event listener
-event.consumer.datashare.class = uk.ac.edina.datashare.utils.DataShareConsumer
-event.consumer.datashare.filters = Collection+Add
+event.consumer.datashare.class = uk.ac.edina.datashare.events.DataShareConsumer
+event.consumer.datashare.filters = Collection|Item+Add|Remove
 
 #### Embargo Settings ####
 # DC metadata field to hold the user-supplied embargo terms
@@ -2123,5 +2123,8 @@ dspace.downloadall.limit = 5300000000
 
 # per item upload maximum 20 GB
 upload.item.max = 21474836480
+
+# the location of dataset zip file
+datasets.path = <%= @ds_datasets_dir %>
 
 #####################################################################

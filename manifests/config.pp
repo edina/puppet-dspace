@@ -24,6 +24,7 @@ class dspace::config {
   $ds_tmp_dir          = "${ds_root}/tmp"
   $ds_baseurl          = hiera('ds::baseurl')
   $ds_datadir          = hiera('ds::datadir')
+  $ds_datasets_dir     = hiera('ds::datasetsdir', "${ds_root}/datasets")
   $ds_handledir        = hiera('ds::handledir', "${ds_root}/handle-server")
   $ds_handleprefix     = hiera('ds::handleprefix')
   $ds_handleurl        = hiera('ds::handleurl')
