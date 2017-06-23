@@ -8,6 +8,8 @@ class dspace::config {
   $db_host = hiera('db::host')
   $db_url = "jdbc:postgresql://${db_host}:${db_port}/${db_name}"
 
+  $ap_log_dir = hiera('apache::log::dir', '/var/log/httpd')
+
   $tomcat_port = hiera('common::tomcat::port')
   $tomcat_dir = hiera('common::tomcat::root')
   $tomcat_user = hiera('common::tomcat::user', 'tomcat')

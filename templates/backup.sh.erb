@@ -11,7 +11,7 @@ DB_NAME=<%= @db_name %>
 DB_USER=<%= @db_user %>
 
 echo "Dump database to $DUMP_FILE ..."
-echo "Using: pg_dump -h $HOST -p $PORT -U $USER -Fc $DB_NAME"
+echo "Using: pg_dump -h $HOST -p $PORT -U $DB_USER -Fc $DB_NAME"
 pg_dump -h $HOST -p $PORT -U $DB_USER -Fc $DB_NAME > $DUMP_FILE
 
 echo "Done."
