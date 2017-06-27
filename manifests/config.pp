@@ -55,7 +55,7 @@ class dspace::config {
   }
 
   file { "$ds_root":
-    ensure => directory,
+    ensure  => directory,
     mode    => '2775',
     owner   => $ds_user,
     group   => $ds_group,
@@ -96,22 +96,32 @@ class dspace::config {
   file { "$ds_modules_conf_dir/oai.cfg":
     ensure  => present,
     content => template('dspace/oai.cfg.erb'),
+    owner   => $ds_user,
+    group   => $ds_group,
   }->
   file { "$ds_modules_conf_dir/discovery.cfg":
     ensure  => present,
     content => template('dspace/discovery.cfg.erb'),
+    owner   => $ds_user,
+    group   => $ds_group,
   }->
   file { "$ds_modules_conf_dir/solr-statistics.cfg":
     ensure  => present,
     content => template('dspace/solr-statistics.cfg.erb'),
+    owner   => $ds_user,
+    group   => $ds_group,
   }->
   file { "$ds_modules_conf_dir/swordv2-server.cfg":
     ensure  => present,
     content => template('dspace/swordv2-server.cfg.erb'),
+    owner   => $ds_user,
+    group   => $ds_group,
   }->
   file { "$ds_modules_conf_dir/curate.cfg":
     ensure  => present,
     content => template('dspace/curate.cfg.erb'),
+    owner   => $ds_user,
+    group   => $ds_group,
   }
 
   # bin
