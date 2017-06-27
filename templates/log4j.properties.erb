@@ -116,11 +116,14 @@ log4j.appender.A4.layout.ConversionPattern=%d %-5p %c %x - %m%n
 ###########################################################################
 # stats logger
 ###########################################################################
-log4j.appender.statsLog=org.apache.log4j.FileAppender
-log4j.appender.statsLog.File=<%= @ds_log_dir %>/stats.log
-log4j.appender.statsLog.DatePattern=yyyy-MM-dd
-log4j.appender.statsLog.layout=org.apache.log4j.PatternLayout
-log4j.appender.statsLog.layout.ConversionPattern=%d %-5p %c @ %m%n
+log4j.logger.uk.ac.edina.datashare.irusuk=INFO, A9
+log4j.additivity.uk.ac.edina.datashare.irusuk=false
+log4j.appender.A9=org.apache.log4j.FileAppender
+log4j.appender.A9.File=<%= @ds_log_dir %>/stats.log
+log4j.appender.A9.DatePattern=yyyy-MM-dd
+log4j.appender.A9.MaxLog=14
+log4j.appender.A9.layout=org.apache.log4j.PatternLayout
+log4j.appender.A9.layout.ConversionPattern=%d %-5p %c @ %m%n
 
 
 ###########################################################################
