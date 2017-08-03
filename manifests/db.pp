@@ -13,11 +13,11 @@ class dspace::db {
     }
 
   postgresql::server::role { "$db_name":
-    password_hash => postgresql_password("$db_user", hiera('db::pass')),
+    password_hash => postgresql_password("$db_user", hiera('db::pass', 'password')),
   }
   postgresql::server::db { "$db_name":
     user     => "$db_user",
-    password => postgresql_password("$db_user", hiera('db::pass')),
+    password => postgresql_password("$db_user", hiera('db::pass', 'password')),
   }
   postgresql::server::database_grant { "$db_user":
     privilege => 'ALL',
