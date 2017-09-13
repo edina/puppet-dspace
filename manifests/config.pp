@@ -205,14 +205,6 @@ class dspace::config {
     path    => "/usr/bin/",
   }
 
-  # log
-  file { "$ds_log_dir":
-    ensure => directory,
-    mode    => '775',
-    owner   => $ds_user,
-    group   => $ds_group,
-  }
-
   # log4j
   file { "$ds_conf_dir/log4j.properties":
     ensure  => present,
