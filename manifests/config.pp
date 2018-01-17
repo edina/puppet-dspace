@@ -161,6 +161,27 @@ class dspace::config {
     owner   => $ds_user,
     group   => $ds_group,
   }
+  file { "$ds_bin_dir/make-TowerBlocks-contents.sh":
+    ensure  => present,
+    source  =>  "puppet:///modules/dspace/scripts/make-TowerBlocks-contents.sh",
+    mode    => '774',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }
+  file { "$ds_bin_dir/loop_dirs_TowerBlocks.sh":
+    ensure  => present,
+    source  =>  "puppet:///modules/dspace/scripts/loop_dirs_TowerBlocks.sh",
+    mode    => '774',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }
+  file { "$ds_bin_dir/make-contents.sh":
+    ensure  => present,
+    source  =>  "puppet:///modules/dspace/scripts/make-contents.sh",
+    mode    => '774',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }
 
   # handle server
   file { "$ds_bin_dir/start-handle-server":
