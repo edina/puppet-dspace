@@ -9,7 +9,7 @@ class dspace::db {
     manage_pg_ident_conf => false,
     }->
     class {"postgresql::server":
-      service_name => 'postgresql-9.3'
+      service_name => 'postgresql'
     }
 
   postgresql::server::role { "$db_name":
