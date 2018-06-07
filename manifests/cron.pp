@@ -88,6 +88,7 @@ class dspace::cron {
 class dspace::cron::beta {
   $ds_bin_dir = "${dspace::dsroot}/bin"
   $ds_user = "${dspace::dsuser}"
+  $ds_fmoptions = hiera('ds::fmoptions')
 
   class { 'dspace::cron':}
 
@@ -105,7 +106,7 @@ class dspace::cron::beta {
     minute  => 15,
   }
   cron { filter-media:
-    command => "${ds_bin_dir}/dspace filter-media 1> /dev/null",
+    command => "${ds_bin_dir}/dspace filter-media $ds_fmoptions 1> /dev/null",
     user    => "${ds_user}",
     hour    => 3,
     minute  => 0
@@ -157,5 +158,4 @@ class dspace::cron::prime {
     hour    => 3,
     minute  => 0
   }
-
 }
