@@ -111,6 +111,11 @@ class dspace::cron::beta {
     hour    => 3,
     minute  => 0
   }
+  cron { monitoring-live:
+    command => "${ds_bin_dir}/monitor-datashare.sh LIVE 1> ${ds_bin_dir}/test.out",
+    user    => "${ds_user}",
+    minute  => '*/20'
+  }
 }
 
 class dspace::cron::prime {
