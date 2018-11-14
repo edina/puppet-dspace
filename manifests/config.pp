@@ -34,6 +34,7 @@ class dspace::config {
   $ds_log_dir          = hiera('ds::logdir', "${ds_root}/log")
   $ds_maildisabled     = hiera('ds::maildisabled', 'false')
   $ds_mailfrom         = hiera('ds::mailfrom')
+  $ds_mailsupport      = hiera('ds::mailsupport')
   $ds_mailserver       = hiera('common::smtp::host')
   $ds_name             = hiera('ds::name')
   $ds_url              = hiera('ds::url')
