@@ -183,6 +183,19 @@ class dspace::config {
     owner   => $ds_user,
     group   => $ds_group,
   }
+  file { "$ds_bin_dir/templates":
+    ensure => directory,
+    mode    => '775',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }
+  file { "$ds_bin_dir/templates/dublin_core-TOWERBLOCKS.xml":
+    ensure  => present,
+    source  =>  "puppet:///modules/dspace/scripts/templates/dublin_core-TOWERBLOCKS.xml",
+    mode    => '660',
+    owner   => $ds_user,
+    group   => $ds_group,
+  }
 
   # handle server
   file { "$ds_bin_dir/start-handle-server":

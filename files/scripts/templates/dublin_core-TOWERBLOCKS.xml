@@ -1,0 +1,53 @@
+<dublin_core>
+  <dcvalue element="title" qualifier="none">[PLACE_HOLDER]</dcvalue>
+  <dcvalue element="contributor" qualifier="other">University of Edinburgh. Scottish Centre for Conservation Studies (SCCS)</dcvalue>
+  <dcvalue element="contributor" qualifier="other">DOCOMOMO International</dcvalue>
+  <dcvalue element="publisher" qualifier="none">University of Edinburgh. Edinburgh College of Art</dcvalue>
+  <dcvalue element="type" qualifier="none">image</dcvalue>
+  <dcvalue element="rights" qualifier="none">CC-BY</dcvalue>
+  <dcvalue element="description" qualifier="abstract">### DOCOMOMO INTERNATIONAL MASS HOUSING ARCHIVE ###  
+The provision of healthy modern housing for all was one of the foremost ideals of the Modern Movement, and inspired a vast wave of planning and building across the world during the 20th century.  In the last quarter of the century, even as the foundational programmes of Europe and America lost their impetus, the baton was passed on to other countries, especially in eastern Asia, where the narrative of Modern mass housing was reinvigorated for the next century - a unique example of a key Modernist project that actually continues and thrives today, and which thus forms a principal focus of interest for DOCOMOMO – the leading international organisation promoting the documentation and conservation of buildings, sites and neighbourhoods of the Modern Movement.    
+As heritage, the built legacies of this diverse and multi-generational adventure are almost always too controversial to qualify for conservation strategies. Instead, therefore, recording and inventorisation must dominate the heritage interest in this field. In the recognition of that fact, DOCOMOMO’s International Specialist Committee on Urbanism and Landscape, in partnership with the Scottish Centre for Conservation Studies at the University of Edinburgh, has launched the International Mass Housing Archive, whose aim is to provide an open-access library of images of significant housing projects in each working-group territory, free of copyright restrictions. These files may be copied, edited and shared on condition the appropriate citation is used, as per the terms of the attached Creative Commons Attribution licence.    
+
+### Structure ### 
+The International Mass Housing Archive is subdivided under geographical headings corresponding to the constituent working groups of DOCOMOMO, and the individual housing projects are searchable under city and project name.  Initially, the Image Archive will be managed and augmented centrally by DOCOMOMO and the SCCS, in partnership with University of Edinburgh Information Services, commencing with pilot city surveys sourced from our own photographic records in the first instance.   
+The archive is related to several existing mass housing documentation initiatives.  These include two concerning Britain, ‘Tower Block UK’ and the online version of the 1994 book, Tower Block:  http://www.towerblock.eca.ed.ac.uk/ and http://fields.eca.ac.uk/gis/TowerBlock.pdf; and one concerning Hong Kong: see http://dx.doi.org/10.7488/ds/322  and http://www.hk.towerblock.eca.ed.ac.uk/list-of-estates .
+</dcvalue>
+  <dcvalue element="creator" qualifier="none">Glendinning, Miles</dcvalue>
+  <!-- ADD OR REMOVE !-->
+  <dcvalue element="subject">mass housing </dcvalue>
+  <dcvalue element="subject">public housing</dcvalue>
+  <dcvalue element="subject">enterprise housing</dcvalue>
+  <dcvalue element="subject">tower block</dcvalue>
+  <dcvalue element="subject">prefabrication</dcvalue>
+  <dcvalue element="subject">socialism</dcvalue>
+  <dcvalue element="subject">multi-storey block</dcvalue>
+  <dcvalue element="subject">neighbourhood unit</dcvalue>
+  <dcvalue element="subject">housing scheme</dcvalue>
+  <dcvalue element="subject">housing estate</dcvalue>
+  <dcvalue element="subject">industrialised building</dcvalue>
+  <dcvalue element="subject">sectional planning</dcvalue>
+  <dcvalue element="subject">slab block</dcvalue>
+  <dcvalue element="subject">Zeilenbau</dcvalue>
+  <dcvalue element="subject">tenement block</dcvalue>
+  <dcvalue element="subject">residential district</dcvalue>
+  <dcvalue element="subject">walk-up flats</dcvalue>
+  <dcvalue element="subject">low-rise housing</dcvalue>
+  <dcvalue element="subject">modern architecture</dcvalue>
+  <dcvalue element="subject">modernism</dcvalue>
+  <dcvalue element="subject">postmodernism</dcvalue>
+  <dcvalue element="subject">Art Deco</dcvalue>
+  <dcvalue element="subject">Socialist Realism</dcvalue>
+  <dcvalue element="subject">khrushchevki</dcvalue>
+  <dcvalue element="subject">magistrale</dcvalue>
+  <dcvalue element="subject">landscape architecture</dcvalue>
+
+  <dcvalue element="subject" qualifier="classification">Architecture Building and Planning::Housing</dcvalue>
+   <!-- ADD OR REMOVE !-->
+  <dcvalue element="coverage" qualifier="spatial">[PLACE_HOLDER]</dcvalue>
+ <dcvalue element="coverage" qualifier="spatial">[PLACE_HOLDER]</dcvalue>
+
+  <dcvalue element="coverage" qualifier="temporal">[PLACE_HOLDER: CHANGE][FORMAT: start=2015-10-08; end=2017-10-06; scheme=W3C-DTF]</dcvalue>
+  <dcvalue element="description" qualifier="tableofcontents">In most cases the filename indicates the street and building. Where multiple photographs were taken at the same location, they may have the same filename; they are distinguished by a number in brackets at the end of the filename (the numbers in parentheses were added automatically by the Windows operating system).</dcvalue>  
+  <dcvalue element="relation" qualifier="isreferencedby">http://fields.eca.ac.uk/gis/TowerBlock.pdf</dcvalue>
+</dublin_core>
